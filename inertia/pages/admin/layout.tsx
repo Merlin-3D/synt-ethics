@@ -15,9 +15,9 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
   }
 
   const navigation = [
-    { name: 'Dashboard', href: '/admin/dashboard', icon: 'M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z' },
-    { name: 'Utilisateurs', href: '/admin/users', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z' },
-    { name: 'Blogs', href: '/admin/blogs', icon: 'M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z' },
+    { name: 'Dashboard', href: '/admin/dashboard', icon: 'M13 9V3h8v6zM3 13V3h8v10zm10 8V11h8v10zM3 21v-6h8v6z' },
+    { name: 'Utilisateurs', href: '/admin/users', icon: 'M16 17v2H2v-2s0-4 7-4s7 4 7 4m-3.5-9.5A3.5 3.5 0 1 0 9 11a3.5 3.5 0 0 0 3.5-3.5m3.44 5.5A5.32 5.32 0 0 1 18 17v2h4v-2s0-3.63-6.06-4M15 4a3.4 3.4 0 0 0-1.93.59a5 5 0 0 1 0 5.82A3.4 3.4 0 0 0 15 11a3.5 3.5 0 0 0 0-7' },
+    { name: 'Blogs', href: '/admin/blogs', icon: 'M16 7h3v4h-3zm-7 8h11M9 11h4M9 7h4M6 18.5a2.5 2.5 0 1 1-5 0V7h5.025M6 18.5V3h17v15.5a2.5 2.5 0 0 1-2.5 2.5h-17' },
   ]
 
   return (
@@ -30,7 +30,7 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
           <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setSidebarOpen(false)} />
           <div className="fixed inset-y-0 left-0 flex w-64 flex-col bg-white">
             <div className="flex h-16 items-center justify-between px-4">
-              <h1 className="text-xl font-semibold text-gray-900">Admin Panel</h1>
+              <h1 className="text-xl font-semibold text-gray-900">SyntEthics Privacy</h1>
               <button
                 onClick={() => setSidebarOpen(false)}
                 className="text-gray-400 hover:text-gray-600"
@@ -72,7 +72,7 @@ export default function AdminLayout({ children, title }: AdminLayoutProps) {
         <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64 lg:flex-col">
           <div className="flex flex-col flex-grow bg-white border-r border-gray-200">
             <div className="flex h-16 items-center px-4">
-              <h1 className="text-xl font-semibold text-gray-900">Admin Panel</h1>
+              <h1 className="text-xl font-semibold text-gray-900">SyntEthics Privacy</h1>
             </div>
             <nav className="flex-1 space-y-1 px-2 py-4">
               {navigation.map((item) => (

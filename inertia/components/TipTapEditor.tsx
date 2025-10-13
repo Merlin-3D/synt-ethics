@@ -15,7 +15,7 @@ import Placeholder from '@tiptap/extension-placeholder'
 import { Table } from '@tiptap/extension-table'
 
 interface TipTapEditorProps {
-  content: string
+  content: any
   onChange: (content: string) => void
   placeholder?: string
 }

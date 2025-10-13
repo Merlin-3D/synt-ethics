@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import AdminLayout from '../layout'
 import { Head, useForm, Link } from '@inertiajs/react'
 import TipTapEditor from '../../../components/TipTapEditor'
+import Editor from '~/components/editor'
+import { countries } from '~/utils/common'
 
 export default function CreateBlog() {
   const { data, setData, post, processing, errors } = useForm({
@@ -20,34 +22,64 @@ export default function CreateBlog() {
     post('/admin/blogs')
   }
 
-  const categories = [
-    'Technologie',
-    'Voyage',
-    'Cuisine',
-    'Mode',
-    'Sport',
-    'Santé',
-    'Éducation',
-    'Business',
-    'Lifestyle',
-    'Autre',
+  const categories: { id: string; label: string }[] = [
+    {
+      id: '0',
+      label: 'Technologie',
+    },
+    {
+      id: '1',
+      label: 'Voyage',
+    },
+    {
+      id: '2',
+      label: 'Cuisine',
+    },
+    {
+      id: '3',
+      label: 'Mode',
+    },
+    {
+      id: '4',
+      label: 'Sport',
+    },
+    {
+      id: '5',
+      label: 'Santé',
+    },
+    {
+      id: '6',
+      label: 'Éducation',
+    },
+    {
+      id: '7',
+      label: 'Business',
+    },
+    {
+      id: '8',
+      label: 'Lifestyle',
+    },
+    {
+      id: '9',
+      label: 'Autre',
+    },
   ]
 
-  const countries = [
-    'France',
-    'États-Unis',
-    'Canada',
-    'Royaume-Uni',
-    'Allemagne',
-    'Espagne',
-    'Italie',
-    'Japon',
-    'Australie',
-    'Brésil',
-    'Inde',
-    'Chine',
-    'Autre',
-  ]
+  const [editorData, setEditorData] = useState<any>({
+    time: 1635603431943,
+    blocks: [],
+  })
+
+  const handleSave = async () => {
+    console.log('Données sauvegardées:', editorData)
+
+    // Pour sauvegarder dans une base de données
+    // await saveToDatabase(editorData);
+  }
+
+  const handleClear = () => {
+    setEditorData({ blocks: [] })
+  }
 
   return (
     <AdminLayout title="Nouveau Blog">
@@ -168,8 +200,8 @@ export default function CreateBlog() {
                 >
                   <option value="">Sélectionnez une catégorie</option>
                   {categories.map((cat) => (
-                    <option key={cat} value={cat}>
-                      {cat}
+                    <option key={cat.id} value={cat.id}>
+                      {cat.label}
                     </option>
                   ))}
                 </select>
@@ -194,8 +226,8 @@ export default function CreateBlog() {
                 >
                   <option value="">Sélectionnez un pays</option>
                   {countries.map((c) => (
-                    <option key={c} value={c}>
-                      {c}
+                    <option key={c.code} value={c.code}>
+                      {c.label}
                     </option>
                   ))}
                 </select>
@@ -231,11 +263,12 @@ export default function CreateBlog() {
               <label htmlFor="body" className="block text-sm font-medium text-gray-700 mb-2">
                 Contenu de l'article *
               </label>
-              <TipTapEditor
+              {/* <TipTapEditor
                 content={data.body}
                 onChange={(content) => setData('body', content)}
                 placeholder="Commencez à rédiger votre article..."
-              />
+              /> */}
+              <Editor data={editorData} onChange={setEditorData} holder="editorjs-container" />
               {errors.body && <p className="mt-2 text-sm text-red-600">{errors.body}</p>}
             </div>
 

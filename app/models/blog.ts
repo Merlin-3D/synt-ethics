@@ -1,5 +1,4 @@
 import { DateTime } from 'luxon'
-import { compose } from '@adonisjs/core/helpers'
 import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import User from './user.js'
