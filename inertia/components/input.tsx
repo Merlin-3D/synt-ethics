@@ -23,7 +23,7 @@ const Input: React.FC<InputProps> = ({
   const errorTextColor = 'text-red-500'
 
   return (
-    <div className={classNames({ 'mb-4': withMargin }, { 'w-full': block })}>
+    <div className={classNames({ '': withMargin }, { 'w-full': block })}>
       {label && <label className={`block text-sm font-medium mb-1`}>{label}</label>}
 
       <div className="relative">

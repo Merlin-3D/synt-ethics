@@ -1,0 +1,12 @@
+import { SVGProps } from 'react'
+
+export default function CheckIcon({ ...prosp }: SVGProps<SVGSVGElement>) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" {...prosp} viewBox="0 0 24 24">
+      <path
+        fill="currentColor"
+        d="m9.55 17.308l-4.97-4.97l.714-.713l4.256 4.256l9.156-9.156l.713.714z"
+      />
+    </svg>
+  )
+}

@@ -1,0 +1,22 @@
+import { SVGProps } from 'react'
+
+export default function ArrowRightIcon({ ...prosp }: SVGProps<SVGSVGElement>) {
+  return (
+    <svg {...prosp} viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M4.75 10H15.25"
+        stroke="#20729D"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M10 4.75L15.25 10L10 15.25"
+        stroke="#20729D"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  )
+}

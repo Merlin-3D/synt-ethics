@@ -6,26 +6,26 @@ import LogoIcon from '../components/icons/logo.icon'
 const navigations = [
   {
     name: 'Accueil',
-    href: '/',
+    href: '/home',
   },
   {
     name: 'Actualités',
     href: '/actualities',
   },
   {
-    name: 'Blog',
+    name: 'Notre Blog',
     href: '/blog',
   },
   {
     name: 'Ressources',
-    href: 'resources',
+    href: '/resources',
   },
   {
     name: 'A propos',
     href: '/about-us',
   },
   {
-    name: 'Winnie',
+    name: 'Fondateur',
     href: '/winnie',
   },
 ]
@@ -45,8 +45,8 @@ export default function Header() {
               <a
                 key={i}
                 href={item.href}
-                className={`mr-5 hover:bg-[#0482C3] font-medium text-base ${
-                  url.includes(item.href) ? 'text-[#0482C3]' : 'text-gray-700 hover:bg-gray-800'
+                className={`mr-5 hover:text-[#0482C3] font-medium text-base ${
+                  url.includes(item.href) ? 'text-[#0482C3]' : 'text-gray-700 hover:text-gray-800'
                 }`}
               >
                 {item.name}

@@ -20,6 +20,34 @@ router.get('/', async ({ inertia }) => {
   return inertia.render('home')
 })
 
+router.get('/home', async ({ inertia }) => {
+  return inertia.render('home')
+})
+
+router.get('/actualities', async ({ inertia }) => {
+  return inertia.render('web/actualities')
+})
+
+router.get('/article/:id', async ({ inertia }) => {
+  return inertia.render('web/article-detail')
+})
+
+router.get('/blog', async ({ inertia }) => {
+  return inertia.render('web/blog')
+})
+
+router.get('/about-us', async ({ inertia }) => {
+  return inertia.render('web/about')
+})
+
+router.get('/winnie', async ({ inertia }) => {
+  return inertia.render('web/winnie')
+})
+
+router.get('/resources', async ({ inertia }) => {
+  return inertia.render('web/resources')
+})
+
 // Routes d'administration
 router
   .group(() => {
