@@ -12,19 +12,19 @@ export default function Home() {
       <Banner
         title={
           <>
-            Vulgarisation des enjeux du recours aux <br />
+            Vulgarisation des enjeux du recours aux <br className="lg:block hidden" />
             données artificielles en recherche
-            <br /> médicale
+            <br className="lg:block hidden" /> médicale
           </>
         }
         hero={hero}
         children={
           <>
-            <div className="flex justify-center mb-16 mt-10">
-              <button className="inline-flex text-white bg-[#288FC4] border-0 py-3 px-3 focus:outline-none hover:bg-[#6BB1CF] rounded-xl text-lg">
+            <div className="flex flex-col gap-4 sm:flex-row justify-center mb-16 mt-10">
+              <button className=" text-white bg-[#288FC4] border-0 py-3 px-3 focus:outline-none hover:bg-[#6BB1CF] rounded-xl text-lg">
                 Consultez tous nos articles
               </button>
-              <button className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-3 px-3 focus:outline-none hover:bg-gray-200 rounded-xl text-lg">
+              <button className="sm:ml-4  text-gray-700 bg-gray-100 border-0 py-3 px-3 focus:outline-none hover:bg-gray-200 rounded-xl text-lg">
                 Contactez-nous
               </button>
             </div>
@@ -50,18 +50,18 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex flex-col items-start my-20">
+        <div className="p-4 xl:px-0 flex flex-col items-start my-8 sm:my-20">
           <h1 className="font-semibold text-[32px] text-[#0A0A0A]">Publications récentes</h1>
           <p className="font-normal text-base text-[#737373] max-w-xl mt-2">
             Bienvenue sur le blog Synt. Ethics, où nous partageons des conseils d'experts, des
             astuces bien-être pour vous aider à améliorer votre pratique
           </p>
 
-          <div className="grid grid-cols-2 gap-6 mt-10">
+          <div className="grid sm:grid-cols-2 gap-6 mt-10">
             <CardArticle />
             <CardArticle />
           </div>
-          <div className="grid grid-cols-3 gap-6 mt-6">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6 mt-6">
             <CardArticle />
             <CardArticle />
             <CardArticle />

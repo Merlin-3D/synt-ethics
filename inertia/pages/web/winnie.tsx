@@ -11,14 +11,18 @@ export default function Winnie() {
         <section className="mx-auto max-w-6xl">
           <div className="container mx-auto flex py-16 items-center justify-center flex-col">
             <div className="text-left w-full pt-24">
-              <h1 className="text-center sm:text-[48px] text-3xl leading-10 mb-4 font-semibold text-[#0A0A0A]">
+              <h1 className="text-center text-[48px] text-3xl leading-10 mb-4 font-semibold text-[#0A0A0A]">
                 Rencontrez <br /> notre fondateur
               </h1>
             </div>
-            <div className="grid grid-cols-2 gap-6 my-16">
+            <div className="p-4 xl:px-0 grid lg:grid-cols-2 gap-6 my-16">
               <div className="flex flex-col h-full w-full gap-6">
-                <div className={`bg-[url(${winnie1})] bg-cover rounded-xl h-full w-full`}></div>
-                <div className={`bg-[url(${winnie2})] bg-cover rounded-xl h-full w-full`}></div>
+                <div className={`h-full w-full bg-cover rounded-xl`}>
+                  <img src={winnie1} alt="" className="bg-cover rounded-xl h-full w-full " />
+                </div>
+                <div className={`bg-cover rounded-xl h-full w-full`}>
+                  <img src={winnie2} alt="" className="bg-cover rounded-xl h-full w-full " />
+                </div>
               </div>
               <div className="flex flex-col gap-8">
                 <div className="border border-gray-200 text-sm rounded-xl p-8">
@@ -57,11 +61,11 @@ export default function Winnie() {
 
       <section className="mx-auto max-w-3xl my-16">
         <div className="flex flex-col">
-          <h1 className="text-[56px] font-semibold text-[#102D26]">Mes coordonées</h1>
+          <h1 className="text-3xl xl:text-[56px] font-semibold text-[#102D26]">Mes coordonées</h1>
           <span className="text-base font-normal text-[#6E7F7B] mb-8">
             Nous sommes là pour vous aider et nous aimerions avoir de vos nouvelles.
           </span>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid md:grid-cols-3 gap-2">
             <div className="bg-[#F5F5F5] p-6 flex flex-col gap-4 rounded-lg">
               <svg
                 width="48"

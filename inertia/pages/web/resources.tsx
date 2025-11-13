@@ -29,7 +29,7 @@ export default function Resources() {
         children={
           <div>
             <div className="flex flex-col justify-center mb-16 mt-10">
-              <div className="flex flex-row items-center justify-center gap-4">
+              <div className="flex flex-col md:flex-row items-center justify-center gap-4">
                 <Input placeholder="Nom de la ressource" />
                 <SelectMenu<{
                   id: string
@@ -84,8 +84,8 @@ export default function Resources() {
         }
       />
 
-      <section className="mx-auto max-w-6xl py-16">
-        <div className="grid grid-cols-3 gap-2">
+      <section className="p-4 xl:px-0 mx-auto max-w-6xl lg:py-16">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-2">
           {continents.map((item) => {
             return (
               <div className="flex items-center gap-2 border border-gray-200 text-sm rounded-md px-2 py-4 cursor-pointer">
@@ -129,12 +129,12 @@ export default function Resources() {
         </div>
       </section>
 
-      <hr className="mx-auto max-w-6xl pt-16" />
+      <hr className="hidden lg:block mx-auto max-w-6xl lg:pt-16" />
 
-      <section className="pb-16 flex flex-col items-start mx-auto max-w-6xl">
+      <section className="p-4 xl:px-0 pb-16 flex flex-col items-start mx-auto max-w-6xl">
         <h1 className="font-semibold text-[32px] text-[#0A0A0A]">Ressources récentes</h1>
 
-        <div className="grid grid-cols-3 mt-6 gap-3">
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 mt-6 gap-3">
           {[1, 2, 3].map((_) => {
             return (
               <div className="flex flex-col items-start justify-start gap-2 border border-gray-200 text-sm rounded-md px-2 py-4 cursor-pointer">

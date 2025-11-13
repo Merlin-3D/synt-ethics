@@ -37,17 +37,16 @@ export default function Actualities() {
           </div>
         </div>
 
-        <div className="flex flex-col items-start my-20">
-          <div className="grid grid-cols-2 gap-6 mt-10">
+        <div className="p-4 xl:px-0 flex flex-col items-start my-20">
+          <div className="grid sm:grid-cols-2 gap-6 mt-10">
             <CardArticle />
             <CardArticle />
           </div>
-          <div className="grid grid-cols-3 gap-6 mt-6">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6 mt-6">
             <CardArticle />
             <CardArticle />
             <CardArticle />
           </div>
-
           <nav className="flex items-center w-full mt-6 justify-between border-t border-gray-200 px-4 sm:px-0 dark:border-white/10">
             <div className="-mt-px flex w-0 flex-1">
               <a

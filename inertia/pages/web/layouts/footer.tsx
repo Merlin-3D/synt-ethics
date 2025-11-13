@@ -5,7 +5,7 @@ import divider from '~/assets/images/divider.png'
 
 export default function Footer() {
   return (
-    <footer className="text-gray-600 body-font bg-[#F5F5F5] py-16">
+    <footer className="text-gray-600 body-font bg-[#F5F5F5] py-16 p-4 xl:px-0 ">
       <div className="max-w-6xl mx-auto relative my-2">
         <div aria-hidden="true" className="absolute inset-0 flex items-center">
           <div className={`w-full border-t border-gray-200`} />
@@ -27,13 +27,13 @@ export default function Footer() {
           <p className="mt-2 text-sm font-normal text-[#737373]">
             Vulgarisation des enjeux du recours aux données artificielles en recherche médicale
           </p>
-          <div className="flex items-center text-base mt-2">
+          <div className="flex items-center text-base mt-2 sm:justify-start justify-center">
             <EmailIcon className="h-10 w-10 cursor-pointer" />
             <LinkedinIcon className="h-10 w-10 cursor-pointer" />
           </div>
         </div>
         <div className="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
-          <div className="lg:w-1/4 md:w-1/2 w-full px-4">
+          <div className=" lg:w-1/4 md:w-1/2 w-full px-4">
             <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3"></h2>
             <nav className="list-none mb-10"></nav>
           </div>

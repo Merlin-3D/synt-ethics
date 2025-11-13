@@ -2,7 +2,7 @@ import ArrowRightIcon from './icons/arrow-right'
 
 export default function CardBlog() {
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-5 h-52">
+    <div className="bg-white border border-gray-200 rounded-xl p-5 xl:h-52">
       <div className="flex flex-col justify-between h-full">
         <div className="flex items-center gap-1 mb-2">
           <span className="font-medium text-sm text-[#20729D]">Astuces</span>

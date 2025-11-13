@@ -36,7 +36,7 @@ export default function Blog() {
           </>
         }
       />
-      <section className="mx-auto max-w-6xl my-16">
+      <section className="p-4 xl:px-0 mx-auto max-w-6xl lg:my-16">
         <div className="flex flex-wrap gap-3 pb-8">
           {categories.map((item) => {
             return (

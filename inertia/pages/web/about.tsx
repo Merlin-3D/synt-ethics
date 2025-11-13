@@ -20,7 +20,7 @@ export default function AboutUs() {
           </>
         }
       />
-      <section className="flex flex-col mx-auto max-w-6xl my-16">
+      <section className="p-4 xl:px-0 flex flex-col mx-auto max-w-6xl my-16">
         <div className="flex flex-wrap">
           <div className="flex flex-cebter items-center gap-1 border border-gray-200 text-[#288FC4] text-xs rounded-xl px-2 py-1">
             <svg
@@ -41,7 +41,7 @@ export default function AboutUs() {
             Mission + Valeurs
           </div>
         </div>
-        <p className="text-[40px] font-semibold text-[#A4ACB9] leading-10 mt-4">
+        <p className="text-2xl lg:text-[40px] font-semibold text-[#A4ACB9] leading-10 mt-4">
           <span className="text-[#0D0D12]">
             Ce blog est né du besoin de partager nos recherches avec un public plus large.
           </span>
@@ -49,8 +49,10 @@ export default function AboutUs() {
           littérature francophone, surtout lorsqu’il s’agit des enjeux juridiques éthiques et
           juridiques liés à leur usage en recherche médicale.
         </p>
-        <div className="grid grid-cols-2 gap-8 my-16">
-          <div className={`bg-[url(${aboutTarget})] bg-cover rounded-xl`}></div>
+        <div className="grid lg:grid-cols-2 gap-8 my-4 lg:my-16">
+          <div className={`bg-cover rounded-xl`}>
+            <img src={aboutTarget} alt="" className="bg-cover rounded-xl h-full w-full " />
+          </div>
           <div className="flex flex-col gap-8">
             <div className="border border-gray-200 text-sm rounded-xl p-8">
               <h1 className="text-[32px] font-semibold text-[#0D0D12]">Notre mission</h1>
