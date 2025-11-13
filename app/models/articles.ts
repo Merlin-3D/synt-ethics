@@ -2,8 +2,9 @@ import { DateTime } from 'luxon'
 import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import User from './user.js'
+import Categories from './category.js'
 
-export default class Blog extends BaseModel {
+export default class Articles extends BaseModel {
   @column({ isPrimary: true })
   declare id: string
 
@@ -17,25 +18,22 @@ export default class Blog extends BaseModel {
   declare coverImage: string | null
 
   @column()
-  declare category: string
+  declare categoryId: string
 
   @column.date()
   declare writingDate: DateTime
 
   @column()
-  declare country: string
+  declare type: string
 
   @column()
-  declare body: string
+  declare content: string
 
   @column()
   declare authorId: string
 
   @column()
   declare isPublished: boolean
-
-  @column()
-  declare slug: string
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -47,4 +45,9 @@ export default class Blog extends BaseModel {
     foreignKey: 'authorId',
   })
   declare author: BelongsTo<typeof User>
-} 
+
+  @belongsTo(() => Categories, {
+    foreignKey: 'categoryId',
+  })
+  declare category: BelongsTo<typeof Categories>
+}

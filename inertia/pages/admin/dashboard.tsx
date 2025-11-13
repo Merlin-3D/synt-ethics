@@ -1,6 +1,7 @@
-import React from 'react'
 import AdminLayout from './layout'
 import { Head, Link } from '@inertiajs/react'
+import CustomerIcon from '../web/components/icons/customers.icon'
+import DocumentIcon from '../web/components/icons/document.icon'
 
 interface DashboardProps {
   stats: {
@@ -30,24 +31,12 @@ export default function Dashboard({ stats, recentBlogs, recentUsers }: Dashboard
         </div>
 
         {/* Statistiques */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="bg-[#f5f6f6] rounded-lg p-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           <div className="bg-white overflow-hidden shadow rounded-lg">
             <div className="p-5">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <svg
-                    className="h-6 w-6 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M16 17v2H2v-2s0-4 7-4s7 4 7 4m-3.5-9.5A3.5 3.5 0 1 0 9 11a3.5 3.5 0 0 0 3.5-3.5m3.44 5.5A5.32 5.32 0 0 1 18 17v2h4v-2s0-3.63-6.06-4M15 4a3.4 3.4 0 0 0-1.93.59a5 5 0 0 1 0 5.82A3.4 3.4 0 0 0 15 11a3.5 3.5 0 0 0 0-7"
-                    />
-                  </svg>
+                  <CustomerIcon className="h-6 w-6" />
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
@@ -65,23 +54,11 @@ export default function Dashboard({ stats, recentBlogs, recentUsers }: Dashboard
             <div className="p-5">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <svg
-                    className="h-6 w-6 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
-                    />
-                  </svg>
+                  <DocumentIcon className="h-6 w-6" />
                 </div>
                 <div className="ml-5 w-0 flex-1">
                   <dl>
-                    <dt className="text-sm font-medium text-gray-500 truncate">Total Blogs</dt>
+                    <dt className="text-sm font-medium text-gray-500 truncate">Total Articles</dt>
                     <dd className="text-lg font-medium text-gray-900">{stats.totalBlogs}</dd>
                   </dl>
                 </div>
@@ -152,39 +129,48 @@ export default function Dashboard({ stats, recentBlogs, recentUsers }: Dashboard
           <div className="bg-white shadow rounded-lg">
             <div className="px-4 py-5 sm:p-6">
               <div className="flex items-center justify-between">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">Blogs Récents</h3>
+                <h3 className="text-lg leading-6 font-medium text-gray-900">Les 5 articles Récents</h3>
                 <Link
                   href="/admin/blogs"
-                  className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                  className="text-sm font-medium text-[#288FC4] hover:text-[#288FC4]"
                 >
                   Voir tout
                 </Link>
               </div>
               <div className="mt-5 flow-root">
                 <ul className="-my-5 divide-y divide-gray-200">
-                  {recentBlogs.map((blog) => (
-                    <li key={blog.id} className="py-4">
-                      <div className="flex items-center space-x-4">
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-gray-900 truncate">{blog.title}</p>
-                          <p className="text-sm text-gray-500">
-                            Par {blog.author?.fullName || 'Anonyme'} • {formatDate(blog.createdAt)}
-                          </p>
+                  {recentBlogs.length === 0 ? (
+                    <p className="text-sm text-gray-500 italic text-center py-4">
+                      Aucun article disponible
+                    </p>
+                  ) : (
+                    recentBlogs.map((blog) => (
+                      <li key={blog.id} className="py-4">
+                        <div className="flex items-center space-x-4">
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-gray-900 truncate">
+                              {blog.title}
+                            </p>
+                            <p className="text-sm text-gray-500">
+                              Par {blog.author?.fullName || 'Anonyme'} •{' '}
+                              {formatDate(blog.createdAt)}
+                            </p>
+                          </div>
+                          <div className="flex-shrink-0">
+                            <span
+                              className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                blog.isPublished
+                                  ? 'bg-green-100 text-green-800'
+                                  : 'bg-yellow-100 text-yellow-800'
+                              }`}
+                            >
+                              {blog.isPublished ? 'Publié' : 'Brouillon'}
+                            </span>
+                          </div>
                         </div>
-                        <div className="flex-shrink-0">
-                          <span
-                            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                              blog.isPublished
-                                ? 'bg-green-100 text-green-800'
-                                : 'bg-yellow-100 text-yellow-800'
-                            }`}
-                          >
-                            {blog.isPublished ? 'Publié' : 'Brouillon'}
-                          </span>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
+                      </li>
+                    ))
+                  )}
                 </ul>
               </div>
             </div>
@@ -199,35 +185,41 @@ export default function Dashboard({ stats, recentBlogs, recentUsers }: Dashboard
                 </h3>
                 <Link
                   href="/admin/users"
-                  className="text-sm font-medium text-indigo-600 hover:text-indigo-500"
+                  className="text-sm font-medium text-[#288FC4] hover:text-[#288FC4]"
                 >
                   Voir tout
                 </Link>
               </div>
               <div className="mt-5 flow-root">
                 <ul className="-my-5 divide-y divide-gray-200">
-                  {recentUsers.map((user) => (
-                    <li key={user.id} className="py-4">
-                      <div className="flex items-center space-x-4">
-                        <div className="flex-shrink-0">
-                          <div className="h-8 w-8 rounded-full bg-indigo-100 flex items-center justify-center">
-                            <span className="text-sm font-medium text-indigo-600">
-                              {user.fullName?.charAt(0) || user.email.charAt(0).toUpperCase()}
-                            </span>
+                  {recentUsers.length === 0 ? (
+                    <p className="text-sm text-gray-500 italic text-center py-4">
+                      Aucun utilisateurs disponible
+                    </p>
+                  ) : (
+                    recentUsers.map((user) => (
+                      <li key={user.id} className="py-4">
+                        <div className="flex items-center space-x-4">
+                          <div className="flex-shrink-0">
+                            <div className="h-8 w-8 rounded-full bg-[#288FC4] flex items-center justify-center">
+                              <span className="text-sm font-medium text-white">
+                                {user.fullName?.charAt(0) || user.email.charAt(0).toUpperCase()}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-gray-900 truncate">
+                              {user.fullName || 'Sans nom'}
+                            </p>
+                            <p className="text-sm text-gray-500">{user.email}</p>
+                          </div>
+                          <div className="flex-shrink-0 text-sm text-gray-500">
+                            {formatDate(user.createdAt)}
                           </div>
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-gray-900 truncate">
-                            {user.fullName || 'Sans nom'}
-                          </p>
-                          <p className="text-sm text-gray-500">{user.email}</p>
-                        </div>
-                        <div className="flex-shrink-0 text-sm text-gray-500">
-                          {formatDate(user.createdAt)}
-                        </div>
-                      </div>
-                    </li>
-                  ))}
+                      </li>
+                    ))
+                  )}
                 </ul>
               </div>
             </div>
@@ -241,11 +233,11 @@ export default function Dashboard({ stats, recentBlogs, recentUsers }: Dashboard
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               <Link
                 href="/admin/blogs/create"
-                className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-[#288FC4]"
               >
                 <div className="flex-shrink-0">
                   <svg
-                    className="h-6 w-6 text-indigo-600"
+                    className="h-6 w-6 text-[#288FC4]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -267,11 +259,11 @@ export default function Dashboard({ stats, recentBlogs, recentUsers }: Dashboard
 
               <Link
                 href="/admin/users/create"
-                className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-[#288FC4]"
               >
                 <div className="flex-shrink-0">
                   <svg
-                    className="h-6 w-6 text-indigo-600"
+                    className="h-6 w-6 text-[#288FC4]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -293,11 +285,11 @@ export default function Dashboard({ stats, recentBlogs, recentUsers }: Dashboard
 
               <Link
                 href="/admin/blogs"
-                className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-[#288FC4]"
               >
                 <div className="flex-shrink-0">
                   <svg
-                    className="h-6 w-6 text-indigo-600"
+                    className="h-6 w-6 text-[#288FC4]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -319,11 +311,11 @@ export default function Dashboard({ stats, recentBlogs, recentUsers }: Dashboard
 
               <Link
                 href="/admin/users"
-                className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                className="relative rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-400 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-[#288FC4]"
               >
                 <div className="flex-shrink-0">
                   <svg
-                    className="h-6 w-6 text-indigo-600"
+                    className="h-6 w-6 text-[#288FC4]"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"

@@ -13,6 +13,7 @@ interface SelectMenuProps<T> {
   data: T[]
   disabled?: boolean
   error?: boolean
+  block?: boolean
   getLabel: (option?: T) => string
   getKey: (option?: T) => string
   onSelected: (value: T) => void
@@ -24,13 +25,14 @@ export default function SelectMenu<T>({
   label,
   data,
   disabled,
+  block = false,
   error,
   getLabel,
   getKey,
   onSelected,
 }: SelectMenuProps<T>) {
   return (
-    <div className="w-56">
+    <div className={block ? 'w-full' : 'w-56'}>
       <Listbox value={selected} onChange={onSelected}>
         <div className={classNames(className, 'relative')}>
           <ListboxButton
@@ -44,7 +46,7 @@ export default function SelectMenu<T>({
               {
                 'border-0 bg-white': !error,
               },
-              'relative w-full cursor-default rounded-md  py-1.5 pl-3 pr-10 text-left text-gray-900 focus:ring-inset ring-1 ring-gray-300 focus:outline-none sm:text-sm sm:leading-6'
+              'relative w-full cursor-default rounded-md  py-2.5 pl-3 pr-10 text-left text-gray-900 focus:ring-inset ring-1 ring-gray-300 focus:outline-none sm:text-sm sm:leading-6'
             )}
           >
             <span className="block truncate">

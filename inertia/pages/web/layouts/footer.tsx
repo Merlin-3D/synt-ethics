@@ -95,7 +95,7 @@ export default function Footer() {
       <div className="">
         <div className="container mx-auto max-w-6xl pt-16 flex flex-wrap items-center justify-center flex-col sm:flex-row">
           <p className="text-gray-500 text-sm text-center sm:text-left">
-            © 2025 SyntEthics Privacy.
+            © {new Date().getFullYear()} SyntEthics Privacy.
           </p>
         </div>
       </div>

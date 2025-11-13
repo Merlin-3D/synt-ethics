@@ -1,8 +1,18 @@
 /* styles/editor.css */
 .editor-container {
-  max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.ql-toolbar {
+  border-top-right-radius: 12px;
+  border-top-left-radius: 12px;
+}
+
+.ql-container {
+  border-bottom-right-radius: 12px;
+  border-bottom-left-radius: 12px;
 }
 
 .editor-toolbar {
@@ -113,7 +123,7 @@
 
 .ce-toolbar__actions {
   left: auto;
-  right: calc(134% );
+  right: calc(134%);
 }
 
 /* Styles pour les citations */

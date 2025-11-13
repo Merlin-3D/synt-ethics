@@ -1,6 +1,6 @@
 import { HttpContext } from '@adonisjs/core/http'
 import User from '#models/user'
-import Blog from '#models/blog'
+import Blog from '#models/articles'
 
 export default class DashboardController {
   async index({ inertia }: HttpContext) {

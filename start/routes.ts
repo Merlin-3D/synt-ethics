@@ -75,9 +75,9 @@ router
         // Gestion des blogs
         router.get('/blogs', [BlogsController, 'index'])
         router.get('/blogs/create', [BlogsController, 'create'])
-        router.post('/blogs', [BlogsController, 'store'])
+        router.post('/blogs/create', [BlogsController, 'store'])
         router.get('/blogs/:id/edit', [BlogsController, 'edit'])
-        router.put('/blogs/:id', [BlogsController, 'update'])
+        router.put('/blogs/:id/edit', [BlogsController, 'update'])
         router.delete('/blogs/:id', [BlogsController, 'destroy'])
       })
       .use([middleware.auth()])

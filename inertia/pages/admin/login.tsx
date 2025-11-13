@@ -1,7 +1,13 @@
-import React, { useState } from 'react'
-import { Head, useForm } from '@inertiajs/react'
+import React from 'react'
+import { Head, useForm, usePage } from '@inertiajs/react'
+import LogoIcon from '../web/components/icons/logo.icon'
+import Input from '~/components/input'
+import Alert from './components/alert'
+import { isArray, isEmpty } from 'lodash'
 
 export default function AdminLogin() {
+  const { props } = usePage<{ params: { [key: string]: string } }>()
+
   const { data, setData, post, processing, errors } = useForm({
     email: '',
     password: '',
@@ -9,85 +15,111 @@ export default function AdminLogin() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    post('/admin/login')
+    post('/admin/login', {
+      preserveScroll: true,
+    })
   }
 
   return (
     <>
       <Head title="Connexion Admin" />
-      
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
-          <div>
-            <div className="mx-auto h-12 w-12 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <svg className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
-            </div>
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              Connexion Administration
-            </h2>
-            <p className="mt-2 text-center text-sm text-gray-600">
-              Accédez à votre console d'administration
-            </p>
+
+      <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center px-6 py-12">
+        {/* Logo et titre */}
+        <div className="flex flex-col items-center mb-8">
+          <div className="h-14 w-14 bg-[#288FC4] rounded-xl flex items-center justify-center shadow-lg">
+            <a href="/" className="flex items-center text-gray-900">
+              <LogoIcon className="w-24" />
+            </a>
           </div>
-          
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-            <div className="rounded-md shadow-sm -space-y-px">
-              <div>
-                <label htmlFor="email" className="sr-only">
-                  Adresse email
-                </label>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${
-                    errors.email ? 'border-red-300' : 'border-gray-300'
-                  } placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
-                  placeholder="Adresse email"
-                  value={data.email}
-                  onChange={(e) => setData('email', e.target.value)}
-                />
-                {errors.email && (
-                  <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-                )}
-              </div>
-              <div>
-                <label htmlFor="password" className="sr-only">
-                  Mot de passe
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border ${
-                    errors.password ? 'border-red-300' : 'border-gray-300'
-                  } placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
-                  placeholder="Mot de passe"
-                  value={data.password}
-                  onChange={(e) => setData('password', e.target.value)}
-                />
-                {errors.password && (
-                  <p className="mt-1 text-sm text-red-600">{errors.password}</p>
-                )}
-              </div>
+          <h2 className="mt-4 text-3xl font-bold text-gray-900">Administration</h2>
+          <p className="mt-2 text-sm text-gray-500">
+            Accédez à votre espace d’administration sécurisé
+          </p>
+        </div>
+
+        {!isEmpty(props.error) &&
+          !isArray(props.error) &&
+          ((props.error as any).code === 'E_INVALID_CREDENTIALS' ? (
+            <Alert type="error" className="mb-4" message={'Email ou mot de passe incorrect.'} />
+          ) : (props.error as any).code === 'E_RUNTIME_EXCEPTION' ? (
+            <Alert type="error" className="mb-4" message={'Erreur lors de la connexion.'} />
+          ) : (
+            <Alert type="error" className="mb-4" message={props.error as any} />
+          ))}
+
+        {/* Carte de connexion */}
+        <div className="w-full max-w-md bg-white shadow-xl rounded-2xl p-8 border border-gray-100">
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            {/* Email */}
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                Adresse e-mail
+              </label>
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                className={`block w-full px-4 py-2 border ${
+                  errors.email ? 'border-red-400' : 'border-gray-300'
+                } rounded-lg focus:ring-2 focus:ring-[#288FC4] focus:border-[#288FC4] sm:text-sm text-gray-900`}
+                placeholder="exemple@admin.com"
+                value={data.email}
+                onChange={(e) => setData('email', e.target.value)}
+              />
+              {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
             </div>
 
+            {/* Mot de passe */}
             <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                Mot de passe
+              </label>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                required
+                className={`block w-full px-4 py-2 border ${
+                  errors.password ? 'border-red-400' : 'border-gray-300'
+                } rounded-lg focus:ring-2 focus:ring-[#288FC4] focus:border-[#288FC4] sm:text-sm text-gray-900`}
+                placeholder="********"
+                value={data.password}
+                onChange={(e) => setData('password', e.target.value)}
+              />
+              {errors.password && <p className="mt-1 text-sm text-red-600">{errors.password}</p>}
+            </div>
+
+            {/* Bouton */}
+            <div className="pt-2">
               <button
                 type="submit"
                 disabled={processing}
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex justify-center items-center py-2.5 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-[#288FC4] hover:bg-[#288FC4] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#288FC4] transition-all duration-150 disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {processing ? (
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  <svg
+                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
                   </svg>
                 ) : null}
                 Se connecter
@@ -95,7 +127,12 @@ export default function AdminLogin() {
             </div>
           </form>
         </div>
+
+        {/* Footer */}
+        <p className="mt-8 text-xs text-gray-500 text-center">
+          © {new Date().getFullYear()} SyntEthics Privacy. — Tous droits réservés
+        </p>
       </div>
     </>
   )
-} 
+}

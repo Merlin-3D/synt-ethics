@@ -33,7 +33,7 @@ export default function EditUser({ user }: EditUserProps) {
           <div className="flex items-center space-x-2">
             <Link
               href="/admin/users"
-              className="text-indigo-600 hover:text-indigo-500"
+              className="text-[#288FC4] hover:text-[#288FC4]"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -60,7 +60,7 @@ export default function EditUser({ user }: EditUserProps) {
                 name="fullName"
                 value={data.fullName}
                 onChange={(e) => setData('fullName', e.target.value)}
-                className={`mt-2 block w-full px-4 py-3 rounded-lg border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-gray-900 placeholder-gray-500 ${
+                className={`mt-2 block w-full px-4 py-3 rounded-lg border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#288FC4]/20 focus:border-[#288FC4] text-gray-900 placeholder-gray-500 ${
                   errors.fullName ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20' : 'border-gray-200 hover:border-gray-300'
                 }`}
                 placeholder="Entrez le nom complet"
@@ -82,7 +82,7 @@ export default function EditUser({ user }: EditUserProps) {
                 required
                 value={data.email}
                 onChange={(e) => setData('email', e.target.value)}
-                className={`mt-2 block w-full px-4 py-3 rounded-lg border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-gray-900 placeholder-gray-500 ${
+                className={`mt-2 block w-full px-4 py-3 rounded-lg border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#288FC4]/20 focus:border-[#288FC4] text-gray-900 placeholder-gray-500 ${
                   errors.email ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20' : 'border-gray-200 hover:border-gray-300'
                 }`}
                 placeholder="exemple@email.com"
@@ -96,14 +96,14 @@ export default function EditUser({ user }: EditUserProps) {
             <div className="flex justify-end space-x-3">
               <Link
                 href="/admin/users"
-                className="inline-flex items-center px-6 py-3 border-2 border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
+                className="inline-flex items-center px-6 py-3 border-2 border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#288FC4] transition-all duration-200"
               >
                 Annuler
               </Link>
               <button
                 type="submit"
                 disabled={processing}
-                className="inline-flex items-center px-6 py-3 border-2 border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                className="inline-flex items-center px-6 py-3 border-2 border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-[#288FC4] hover:bg-[#288FC4] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#288FC4] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
               >
                 {processing ? (
                   <>
