@@ -138,7 +138,7 @@ export default function EditBlog({ blog }: EditBlogProps) {
         </div>
 
         {/* Formulaire */}
-        <div className="bg-white shadow-lg rounded-xl border border-gray-100">
+        <div className="bg-white">
           <form onSubmit={handleSubmit} className="space-y-8 p-8">
             {/* Titre */}
             <div>
