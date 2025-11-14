@@ -245,7 +245,7 @@ export default function ResourcesIndex({ resources }: ResourcesIndexProps) {
             <div className="text-center py-16">
               <div className="max-w-md mx-auto">
                 <ProjectIcon className="mx-auto h-16 w-16 text-gray-400" />
-                <h3 className="mt-4 text-lg font-medium text-gray-900">Aucune resource trouvé</h3>
+                <h3 className="mt-4 text-lg font-medium text-gray-900">Aucune resource trouvée</h3>
                 <p className="mt-2 text-sm text-gray-500">
                   {searchTerm
                     ? 'Aucun article ne correspond à vos critères de recherche.'

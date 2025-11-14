@@ -209,7 +209,7 @@ export default function BlogsIndex({ blogs }: BlogsIndexProps) {
                           </div>
                         )}
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200">
+                          <h3 className="text-sm font-semibold text-gray-900 line-clamp-2 transition-colors duration-200">
                             {blog.title}
                           </h3>
                           <p className="mt-1 text-sm text-gray-500 line-clamp-2">

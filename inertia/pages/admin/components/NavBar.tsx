@@ -5,6 +5,7 @@ import SearchIcon from '~/pages/web/components/icons/search.icon'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import ChevronIcon from '~/pages/web/components/icons/chevron.icon'
 import { useForm, usePage } from '@inertiajs/react'
+import Bars4Icon from '~/pages/web/components/icons/bars4.icon'
 
 const userNavigation = [{ name: 'Déconnexion', href: '#' }]
 
@@ -49,16 +50,14 @@ export default function Navbar({ onClose }: NavbarProps) {
 
           <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 justify-between">
             <form className="relative hidden md:flex items-center">
-              <SearchIcon
-                aria-hidden="true"
-                className="absolute left-3 text-gray-400 w-4 h-4 pointer-events-none"
-              />
-              <input
-                name="search"
-                placeholder="Rechercher un article"
-                aria-label="Search"
-                className="w-full rounded-lg bg-dashboard/75 py-2 pl-9 pr-3 text-base text-gray-500 outline-none placeholder:text-gray-500/75 focus:border-[#288FC4] focus:ring-[#288FC4] focus:outline-none focus:ring-1 focus:outline-white sm:text-sm/6"
-              />
+              {/* <button
+                type="button"
+                onClick={() => onClose(true)}
+                className="-m-2.5 p-2.5 text-gray-700 hover:text-gray-900"
+              >
+                <span className="sr-only">Open sidebar</span>
+                <Bars4Icon aria-hidden="true" className="size-6" />
+              </button> */}
             </form>
             <div></div>
             <div className="flex items-center gap-x-4 lg:gap-x-3">
@@ -73,7 +72,10 @@ export default function Navbar({ onClose }: NavbarProps) {
                   </div>
 
                   <span className="hidden lg:flex lg:items-center">
-                    <span aria-hidden="true" className="capitalize ml-2 text-sm/6 font-semibold text-gray-900">
+                    <span
+                      aria-hidden="true"
+                      className="capitalize ml-2 text-sm/6 font-semibold text-gray-900"
+                    >
                       {props.user ? props.user.fullName : ''}
                     </span>
                     <ChevronIcon aria-hidden="true" className="ml-2 size-3 text-gray-400" />
