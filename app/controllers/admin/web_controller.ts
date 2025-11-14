@@ -1,5 +1,8 @@
 import Articles from '#models/articles'
 import Categories from '#models/category'
+import Continents from '#models/continent'
+import Country from '#models/country'
+import Resources from '#models/resources'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class WebController {
@@ -98,7 +101,13 @@ export default class WebController {
   }
 
   async resources({ inertia }: HttpContext) {
-    return inertia.render('web/resources', {}, { title: 'Ressources' })
+    const resources = await Resources.query()
+      .orderBy('createdAt', 'desc')
+      .preload('country')
+      .limit(3)
+    const continents = await Continents.query().orderBy('createdAt', 'asc')
+
+    return inertia.render('web/resources', { continents, resources }, { title: 'Ressources' })
   }
 
   async articles({ params, request, response }: HttpContext) {
@@ -119,5 +128,21 @@ export default class WebController {
       .limit(10)
 
     return response.json({ data: articles })
+  }
+
+  async resourcesDetail({ params, inertia }: HttpContext) {
+    const continent = await Continents.query().where('id', params.id).first()
+    if (!continent) {
+      return
+    }
+    const continents = await Continents.query().orderBy('createdAt', 'asc')
+    const countries = await Country.query().orderBy('createdAt', 'asc')
+    const resources = await Resources.query().orderBy('createdAt', 'desc').preload('country')
+
+    return inertia.render(
+      'web/resource-details',
+      { continent, continents, countries, resources },
+      { title: 'Détails' }
+    )
   }
 }

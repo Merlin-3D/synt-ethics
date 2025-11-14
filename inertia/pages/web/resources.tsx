@@ -5,22 +5,32 @@ import hero from '~/assets/images/hero-resource.png'
 import Input from '~/components/input'
 import Footer from './layouts/footer'
 import PdfIcon from './components/icons/pdf-icon'
+import { ResourceResponse } from '~/dto/resource'
+import { classifications, formatDate2, formatFileSize } from '~/utils/common'
+import { usePage } from '@inertiajs/react'
 
-const continents = [
-  'Europe',
-  'Canada',
-  'États-Unis',
-  'Amérique latine',
-  'Asie-pacifique',
-  'Moyen-Orient',
-  'Afrique',
-]
+interface RessourcesProps {
+  continents: {
+    id: string
+    name: string
+    nameFr: string
+  }[]
+  resources: ResourceResponse[]
+}
 
-export default function Resources() {
+export default function Resources({ continents, resources }: RessourcesProps) {
+  const { props } = usePage<any>()
   const [continent, setContinent] = useState<{
     id: string
     name: string
-  }>()
+    nameFr: string
+  } | null>(null)
+
+  const [classification, setClassification] = useState<{
+    id: string
+    label: string
+  } | null>(null)
+
   return (
     <div className="p-1">
       <Banner
@@ -34,43 +44,26 @@ export default function Resources() {
                 <SelectMenu<{
                   id: string
                   name: string
+                  nameFr: string
                 }>
-                  data={[
-                    {
-                      name: 'Durward Reynolds',
-                      id: '1',
-                    },
-                    {
-                      name: 'Kenton Towne',
-                      id: '2',
-                    },
-                  ]}
-                  getLabel={(value) => value!.name}
-                  getKey={(value) => value!.name}
+                  data={continents}
+                  getLabel={(value) => value!.nameFr}
+                  getKey={(value) => value!.nameFr}
                   label="Continent"
-                  selected={continent}
+                  selected={continent!}
                   onSelected={(value) => setContinent(value)}
                   className="w-full"
                 />
                 <SelectMenu<{
                   id: string
-                  name: string
+                  label: string
                 }>
-                  data={[
-                    {
-                      name: 'Durward Reynolds',
-                      id: '1',
-                    },
-                    {
-                      name: 'Kenton Towne',
-                      id: '2',
-                    },
-                  ]}
-                  getLabel={(value) => value!.name}
-                  getKey={(value) => value!.name}
-                  label="Continent"
-                  selected={continent}
-                  onSelected={(value) => setContinent(value)}
+                  data={classifications}
+                  getLabel={(value) => value!.label}
+                  getKey={(value) => value!.label}
+                  label="Classifications"
+                  selected={classification!}
+                  onSelected={(value) => setClassification(value)}
                   className="w-full"
                 />
               </div>
@@ -88,7 +81,10 @@ export default function Resources() {
         <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-2">
           {continents.map((item) => {
             return (
-              <div className="flex items-center gap-2 border border-gray-200 text-sm rounded-md px-2 py-4 cursor-pointer">
+              <a
+                href={`/resource/continent/${item.id}`}
+                className="flex items-center gap-2 border border-gray-200 text-sm rounded-md px-2 py-4 cursor-pointer"
+              >
                 <svg
                   width="27"
                   height="27"
@@ -122,8 +118,8 @@ export default function Resources() {
                   />
                 </svg>
 
-                <span className="font-medium text-[16px] text-[#0A0A0A]">{item}</span>
-              </div>
+                <span className="font-medium text-[16px] text-[#0A0A0A]">{item.nameFr}</span>
+              </a>
             )
           })}
         </div>
@@ -135,7 +131,7 @@ export default function Resources() {
         <h1 className="font-semibold text-[32px] text-[#0A0A0A]">Ressources récentes</h1>
 
         <div className="grid lg:grid-cols-3 md:grid-cols-2 mt-6 gap-3">
-          {[1, 2, 3].map((_) => {
+          {resources.map((item) => {
             return (
               <div className="flex flex-col items-start justify-start gap-2 border border-gray-200 text-sm rounded-md px-2 py-4 cursor-pointer">
                 <h1 className="flex items-center gap-2">
@@ -171,30 +167,45 @@ export default function Resources() {
                       fill="#292D32"
                     />
                   </svg>
-                  <span className="text-[#737373] font-normal text-[12px]">France</span>
+                  <span className="text-[#737373] font-normal text-[12px]">
+                    {item.country.name}
+                  </span>
                 </h1>
 
                 <h5 className="text-gray-900 font-medium text-[16px] tracking-tight">
-                  Titre indicatif de la ressource
+                  {item.title}
                 </h5>
                 <p className="font-normal text-[#737373] text-[12px] line-clamp-3">
-                  Lorem ipsum dolor sit amet consectetur. Nulla dolor dis posuere purus duis
-                  aliquam. Consectetur orci integer fringilla neque nec donec sit.
+                  {item.description}
                 </p>
                 <hr className="h-[0.5px] w-full bg-[#737379]" />
                 <div className="flex items-center gap-4">
-                  <PdfIcon className="h-16 w-16" />
+                  <a target="_blank" href={`${props.filePath}/demo/${item.document}`}>
+                    <PdfIcon className="h-16 w-16" />
+                  </a>
                   <div className="flex flex-col items-start">
-                    <h5 className="text-gray-900 font-medium text-[16px] tracking-tight">
-                      Organize media projects .pdf
-                    </h5>
-                    <span className="text-[#737379] font-normal text-xs">5 MB</span>
+                    <a
+                      target="_blank"
+                      href={`${props.filePath}/demo/${item.document}`}
+                      className="text-gray-900 font-medium text-[16px] tracking-tight"
+                    >
+                      {item.document}
+                    </a>
+                    <span className="text-[#737379] font-normal text-xs">
+                      {formatFileSize(Number(item.size))}
+                    </span>
                   </div>
                 </div>
-                <i className="text-[#737379] font-normal text-xs">Ajouté le 15/02/2025</i>
+                <i className="text-[#737379] font-normal text-xs">
+                  Ajouté le {formatDate2(item.createdAt)}
+                </i>
               </div>
             )
           })}
+
+          {resources.length === 0 && (
+            <div className="text-center py-8 text-gray-500">Aucune ressource.</div>
+          )}
         </div>
       </section>
 
