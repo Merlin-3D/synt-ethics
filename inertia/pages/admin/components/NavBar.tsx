@@ -73,7 +73,7 @@ export default function Navbar({ onClose }: NavbarProps) {
                   </div>
 
                   <span className="hidden lg:flex lg:items-center">
-                    <span aria-hidden="true" className="ml-2 text-sm/6 font-semibold text-gray-900">
+                    <span aria-hidden="true" className="capitalize ml-2 text-sm/6 font-semibold text-gray-900">
                       {props.user ? props.user.fullName : ''}
                     </span>
                     <ChevronIcon aria-hidden="true" className="ml-2 size-3 text-gray-400" />

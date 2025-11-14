@@ -6,6 +6,7 @@ import EditorQuill from '../components/editor-with-use-quill'
 import SelectMenu from '~/pages/web/components/select-menu'
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
+import { types } from '~/utils/common'
 
 interface Blog {
   id: string
@@ -51,16 +52,6 @@ export default function EditBlog({ blog }: EditBlogProps) {
     label: string
   } | null>(null)
 
-  const types: { id: string; label: string }[] = [
-    {
-      id: '0',
-      label: 'Actualité',
-    },
-    {
-      id: '1',
-      label: 'Blog',
-    },
-  ]
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()

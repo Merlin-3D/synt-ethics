@@ -10,6 +10,7 @@ import DashboardIcon from '~/pages/web/components/icons/dashboard.icon'
 import CustomerIcon from '~/pages/web/components/icons/customers.icon'
 import DocumentIcon from '~/pages/web/components/icons/document.icon'
 import LogoutIcon from '~/pages/web/components/icons/logout.icon'
+import ProjectIcon from '~/pages/web/components/icons/project.icon'
 
 const navItems = [
   {
@@ -25,7 +26,7 @@ const navItems = [
   {
     name: 'Resources',
     href: '/admin/resources',
-    icon: DocumentIcon,
+    icon: ProjectIcon,
   },
   {
     name: 'Utilisateurs',

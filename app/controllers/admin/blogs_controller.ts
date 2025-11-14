@@ -4,7 +4,14 @@ import * as validator from '#validators/article'
 import { promises as fs } from 'node:fs'
 import Category from '#models/category'
 import { DateTime } from 'luxon'
+import Country from '#models/country'
+import Continents from '#models/continent'
+import drive from '@adonisjs/drive/services/main'
+import { cuid } from '@adonisjs/core/helpers'
+import env from '#start/env'
+import Resources from '#models/resources'
 
+const disk = env.get('DRIVE_DISK') as any
 export default class BlogsController {
   async index({ inertia }: HttpContext) {
     const blogs = await Articles.query().preload('author').preload('category')
@@ -101,4 +108,55 @@ export default class BlogsController {
     await article.delete()
     return response.redirect('/admin/blogs')
   }
+
+  async indexResources({ inertia }: HttpContext) {
+    // const blogs = await Articles.query().preload('author').preload('category')
+    return inertia.render('admin/resources/index', { resources: [] })
+  }
+
+  async createResources({ inertia }: HttpContext) {
+    const countries = await Country.query()
+    const continents = await Continents.query()
+    return inertia.render('admin/resources/create', { countries, continents })
+  }
+
+  async storeResources({ request, response, inertia }: HttpContext) {
+    try {
+      const data = await request.validateUsing(validator.createResource)
+
+      const fileName = `${generateMediaFilename(getRandomIndex())}.pdf`
+      const key = `/demo/${fileName}`
+      await data.file!.moveToDisk(key)
+      await drive.use(disk).getUrl(key)
+
+      await Resources.create({
+        title: data.title,
+        description: data.description,
+        document: fileName,
+        countryId: data.countryId,
+        continentId: data.continentId,
+        classification: data.classification,
+        size: `${data.file?.size}`,
+      })
+      const countries = await Country.query()
+      const continents = await Continents.query()
+      return inertia.render('admin/resources/create', {
+        error: null,
+        success: 'Création éffectuée avec succès',
+        countries,
+        continents,
+      })
+    } catch (error) {
+      return response.redirect().back()
+    }
+  }
+}
+function generateMediaFilename(index: number = 1) {
+  const datePart = DateTime.local().toFormat('yyyyLLdd') // ex: 20250711
+  const count = String(index).padStart(4, '0') // 0001, 0002...
+  return `DOC-${datePart}-${count}`
+}
+
+function getRandomIndex() {
+  return Math.floor(1000 + Math.random() * 9000) // Ex: 4381
 }

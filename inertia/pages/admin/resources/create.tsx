@@ -1,67 +1,56 @@
-import React, { ChangeEvent, useState } from 'react'
-import AdminLayout from '../layout'
-import { Head, useForm, Link, usePage } from '@inertiajs/react'
-import Input from '~/components/input'
-import EditorQuill from '../components/editor-with-use-quill'
-import SelectMenu from '~/pages/web/components/select-menu'
+import { Head, Link, useForm, usePage } from '@inertiajs/react'
+import { ChangeEvent, useState } from 'react'
 import { toast } from 'react-toastify'
-import { types } from '~/utils/common'
+import AdminLayout from '../layout'
+import Input from '~/components/input'
+import SelectMenu from '~/pages/web/components/select-menu'
+import AutoComplete from '~/pages/web/components/auto-complete'
+import { classifications } from '~/utils/common'
+import { isEmpty } from 'lodash'
 
-export default function CreateBlog() {
+export default function CreateResources() {
   const { props } = usePage<any>()
 
   const { data, setData, post, processing, errors, reset } = useForm({
     title: '',
     description: '',
-    coverImage: null as File | null,
-    categoryId: '',
-    writingDate: '',
-    type: '',
-    content: '',
-    isPublished: false,
+    file: null as File | null,
+    countryId: '',
+    continentId: '',
+    classification: '',
   })
 
-  const [editorContent, setEditorContent] = useState('')
-  const [category, setCategory] = useState<{
+  const [continent, setContinent] = useState<{
+    id: string
+    name: string
+    nameFr: string
+  } | null>(null)
+
+  const [country, setCountry] = useState<{
+    id: string
+    name: string
+  } | null>(null)
+
+  const [classification, setClassification] = useState<{
     id: string
     label: string
   } | null>(null)
-
-  const [type, setType] = useState<{
-    id: string
-    label: string
-  } | null>(null)
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    post('/admin/blogs/create', {
-      onSuccess: (data) => {
-        reset()
-        setCategory(null)
-        setType(null)
-        setEditorContent('')
-        data.props.success !== null
-          ? toast.success(`${data.props.success}`)
-          : data.props.error !== null && toast.error(`${data.props.error}`)
-      },
-    })
-  }
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const selectedFile = e.target.files[0]
 
-      const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/web']
+      const allowedTypes = ['application/pdf']
       if (!allowedTypes.includes(selectedFile.type)) {
-        toast.error('Seuls les fichiers PNG et JPEG sont autorisés.')
+        toast.error('Seuls les fichiers PDF sont autorisés.')
         return
       }
 
-      if (selectedFile.size > 3 * 1024 * 1024) {
-        toast.warning('La taille du fichier ne doit pas dépasser 3 Mo.')
+      if (selectedFile.size > 200 * 1024 * 1024) {
+        toast.warning('La taille du fichier est trop grand.')
         return
       }
-      setData('coverImage', selectedFile as any)
+      setData('file', selectedFile as any)
       handleChangeImage(selectedFile)
     }
   }
@@ -79,31 +68,46 @@ export default function CreateBlog() {
     })
   }
 
-  return (
-    <AdminLayout title="Nouveau Blog">
-      <Head title="Nouveau Blog" />
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (classification && country && continent) {
+      post('/admin/resources/create', {
+        onSuccess: (data) => {
+          reset()
+          setContinent(null)
+          setCountry(null)
+          setClassification(null)
+          data.props.success !== null
+            ? toast.success(`${data.props.success}`)
+            : data.props.error !== null && toast.error(`${data.props.error}`)
+        },
+      })
+    } else {
+      toast.error('Tous les champs obligatoires doivent être renseignés.')
+    }
+  }
 
-      <div className="space-y-6">
-        <div>
-          <div className="flex items-center space-x-2">
-            <Link href="/admin/blogs" className="text-[#288FC4] hover:text-[#288FC4]">
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </Link>
-            <div className="flex flex-col">
-              <h1 className="text-2xl font-bold text-gray-900">Nouveau Blog</h1>
-              <p className="mt-1 text-sm text-gray-500">Créez un nouvel article de blog</p>
-            </div>
+  return (
+    <AdminLayout title="Nouvelle ressource">
+      <Head title="Nouvelle ressource" />{' '}
+      <div>
+        <div className="flex items-center space-x-2">
+          <Link href="/admin/resources" className="text-[#288FC4] hover:text-[#288FC4]">
+            <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </Link>
+          <div className="flex flex-col">
+            <h1 className="text-2xl font-bold text-gray-900">Nouvelle ressource</h1>
+            <p className="mt-1 text-sm text-gray-500">Créez un nouvelle ressource</p>
           </div>
         </div>
 
-        {/* Formulaire */}
         <div className="bg-white border-gray-100">
           <form onSubmit={handleSubmit} className="space-y-8 p-8">
             {/* Titre */}
@@ -155,125 +159,105 @@ export default function CreateBlog() {
             {/* Image de couverture */}
             <div>
               <label htmlFor="coverImage" className="block text-sm font-medium text-gray-700">
-                Image de couverture
+                Document de la ressource
               </label>
               <Input
                 type="file"
                 id="coverImage"
                 name="coverImage"
-                accept="image/png, image/jpeg, image/jpg, image/web"
+                accept="application/pdf"
                 onChange={handleFileChange}
                 className={` ${
-                  errors.coverImage
+                  errors.file
                     ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20'
                     : 'border-gray-200 hover:border-gray-300'
                 }`}
               />
-              {errors.coverImage && (
-                <p className="mt-1 text-sm text-red-600">{errors.coverImage}</p>
-              )}
+              {errors.file && <p className="mt-1 text-sm text-red-600">{errors.file}</p>}
             </div>
 
             {/* Catégorie et Pays */}
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
               <div>
                 <label htmlFor="category" className="block text-sm font-medium text-gray-700">
-                  Catégorie <span className="text-red-600">*</span>
+                  Continents <span className="text-red-600">*</span>
                 </label>
-                <SelectMenu<{
+                <AutoComplete<{
                   id: string
-                  label: string
+                  name: string
+                  nameFr: string
                 }>
-                  data={props.categories}
-                  getLabel={(value) => value!.label}
+                  data={props.continents}
+                  selected={continent!}
+                  getLabel={(value) => value?.nameFr!}
                   getKey={(value) => value!.id}
-                  label="Sélectionnez la catégorie"
-                  selected={category!}
                   onSelected={(value) => {
-                    setData('categoryId', value.id)
-                    setCategory(value)
+                    setData('continentId', value.id)
+                    setContinent(value)
                   }}
-                  className="mt-2 py-"
-                  block
+                  label="Sélectionnez le continent"
+                  className="mt-2"
                 />
-                {errors.categoryId && (
-                  <p className="mt-1 text-sm text-red-600">{errors.categoryId}</p>
+                {errors.continentId && (
+                  <p className="mt-1 text-sm text-red-600">{errors.continentId}</p>
                 )}
               </div>
 
               <div>
                 <label htmlFor="category" className="block text-sm font-medium text-gray-700">
-                  Type d'article <span className="text-red-600">*</span>
+                  Pays <span className="text-red-600">*</span>
+                </label>
+
+                <AutoComplete<{
+                  id: string
+                  name: string
+                }>
+                  data={props.countries.filter(
+                    (item: { id: string; region: string; subregion: string }) =>
+                      item.region.toLowerCase() === continent?.name.toLowerCase() ||
+                      item.subregion.toLowerCase() === continent?.name.toLowerCase()
+                  )}
+                  selected={country!}
+                  getLabel={(value) => value?.name!}
+                  getKey={(value) => value!.id}
+                  onSelected={(value) => {
+                    setData('countryId', value.id)
+                    setCountry(value)
+                  }}
+                  disabled={isEmpty(continent)}
+                  label="Sélectionnez le pays"
+                  className="mt-2"
+                />
+                {errors.countryId && (
+                  <p className="mt-1 text-sm text-red-600">{errors.countryId}</p>
+                )}
+              </div>
+
+              <div>
+                <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+                  Classifications <span className="text-red-600">*</span>
                 </label>
 
                 <SelectMenu<{
                   id: string
                   label: string
                 }>
-                  data={types}
+                  data={classifications}
                   getLabel={(value) => value!.label}
                   getKey={(value) => value!.id}
-                  label="Sélectionnez le type d'artcile"
-                  selected={type!}
+                  label="Sélectionnez la classification"
+                  selected={classification!}
                   onSelected={(value) => {
-                    setData('type', value.id)
-                    setType(value)
+                    setData('classification', value.id)
+                    setClassification(value)
                   }}
                   className="mt-2 "
                   block
                 />
-                {errors.type && <p className="mt-1 text-sm text-red-600">{errors.type}</p>}
+                {errors.classification && (
+                  <p className="mt-1 text-sm text-red-600">{errors.classification}</p>
+                )}
               </div>
-            </div>
-            <div>
-              <label htmlFor="country" className="block text-sm font-medium text-gray-700">
-                Date de rédaction <span className="text-red-600">*</span>
-              </label>
-              <Input
-                type="date"
-                id="writingDate"
-                name="writingDate"
-                required
-                value={data.writingDate}
-                onChange={(e) => setData('writingDate', e.target.value)}
-                className={`mt-2 ${
-                  errors.writingDate
-                    ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20'
-                    : 'border-gray-200 hover:border-gray-300'
-                }`}
-              />
-              {errors.writingDate && (
-                <p className="mt-1 text-sm text-red-600">{errors.writingDate}</p>
-              )}
-            </div>
-            {/* Contenu du blog */}
-            <div>
-              <label htmlFor="body" className="block text-sm font-medium text-gray-700 mb-2">
-                Contenu de l'article <span className="text-red-600">*</span>
-              </label>
-              <EditorQuill
-                handleButtonClick={(editorContent) => {
-                  setData('content', editorContent)
-                  setEditorContent(editorContent)
-                }}
-                initialContent={editorContent}
-              />
-              {errors.content && <p className="mt-2 text-sm text-red-600">{errors.content}</p>}
-            </div>
-
-            {/* Statut de publication */}
-            <div className="flex items-center">
-              <input
-                id="isPublished"
-                name="isPublished"
-                type="checkbox"
-                checked={data.isPublished}
-                onChange={(e) => setData('isPublished', e.target.checked)}
-                className="h-4 w-4 text-[#288FC4] focus:ring-[#288FC4] border-gray-300 rounded"
-              />
-              <label htmlFor="isPublished" className="ml-2 block text-sm text-gray-900">
-                Publier immédiatement
-              </label>
             </div>
 
             {/* Boutons d'action */}
@@ -314,7 +298,7 @@ export default function CreateBlog() {
                     Création...
                   </>
                 ) : (
-                  "Créer l'article"
+                  'Créer la ressource'
                 )}
               </button>
             </div>

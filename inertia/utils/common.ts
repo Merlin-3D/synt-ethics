@@ -40,3 +40,29 @@ export const countries: { code: string; label: string }[] = [
   { code: 'CD', label: 'République Démocratique du Congo' },
   { code: 'OTHER', label: 'Autre' },
 ]
+
+export const types: { id: string; label: string }[] = [
+  {
+    id: '0',
+    label: 'Actualité',
+  },
+  {
+    id: '1',
+    label: 'Blog',
+  },
+]
+
+export const classifications: { id: string; label: string }[] = [
+  {
+    id: '1',
+    label: 'Associations',
+  },
+  {
+    id: '2',
+    label: 'Projets publics',
+  },
+  {
+    id: '3',
+    label: 'Lignes directrices et softlaw',
+  },
+]

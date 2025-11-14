@@ -11,42 +11,27 @@ const AuthController = () => import('#controllers/auth_controller')
 const DashboardController = () => import('#controllers/admin/dashboard_controller')
 const UsersController = () => import('#controllers/admin/users_controller')
 const BlogsController = () => import('#controllers/admin/blogs_controller')
+const WebController = () => import('#controllers/admin/web_controller')
 
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
 
 // Routes publiques
-router.get('/', async ({ inertia }) => {
-  return inertia.render('home')
-})
+router.get('/', [WebController, 'home'])
 
-router.get('/home', async ({ inertia }) => {
-  return inertia.render('home')
-})
+router.get('/home', [WebController, 'home'])
 
-router.get('/actualities', async ({ inertia }) => {
-  return inertia.render('web/actualities')
-})
+router.get('/actualities', [WebController, 'actualities'])
 
-router.get('/article/:id', async ({ inertia }) => {
-  return inertia.render('web/article-detail')
-})
+router.get('/article/:id', [WebController, 'articleDetail'])
 
-router.get('/blog', async ({ inertia }) => {
-  return inertia.render('web/blog')
-})
+router.get('/blog', [WebController, 'blog'])
 
-router.get('/about-us', async ({ inertia }) => {
-  return inertia.render('web/about')
-})
+router.get('/about-us', [WebController, 'aboutUs'])
 
-router.get('/winnie', async ({ inertia }) => {
-  return inertia.render('web/winnie')
-})
+router.get('/winnie', [WebController, 'winnie'])
 
-router.get('/resources', async ({ inertia }) => {
-  return inertia.render('web/resources')
-})
+router.get('/resources', [WebController, 'resources'])
 
 // Routes d'administration
 router
@@ -79,6 +64,11 @@ router
         router.get('/blogs/:id/edit', [BlogsController, 'edit'])
         router.put('/blogs/:id/edit', [BlogsController, 'update'])
         router.delete('/blogs/:id', [BlogsController, 'destroy'])
+
+        // Gestion des ressources
+        router.get('/resources', [BlogsController, 'indexResources'])
+        router.get('/resources/create', [BlogsController, 'createResources'])
+        router.post('/resources/create', [BlogsController, 'storeResources'])
       })
       .use([middleware.auth()])
   })

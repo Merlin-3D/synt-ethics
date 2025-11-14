@@ -46,16 +46,6 @@ export default function BlogsIndex({ blogs }: BlogsIndexProps) {
     })
   }
 
-  const formatDateTime = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('fr-FR', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    })
-  }
-
   const getStatusBadge = (isPublished: boolean) => {
     return (
       <span
@@ -106,10 +96,9 @@ export default function BlogsIndex({ blogs }: BlogsIndexProps) {
     return matchesSearch && matchesStatus && matchesCategory
   })
 
-
   return (
     <AdminLayout title="Gestion des Articles">
-      <Head title="Articles - Administration" />
+      <Head title="Articles" />
 
       <div className="space-y-6">
         {/* En-tête avec statistiques */}

@@ -60,7 +60,7 @@ export default function UsersIndex({ users }: UsersIndexProps) {
               <svg className="-ml-1 mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
               </svg>
-              Nouvel Utilisateur
+              Nouvel utilisateur
             </Link>
           </div>
         </div>

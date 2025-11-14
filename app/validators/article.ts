@@ -35,3 +35,19 @@ export const updateArticle = vine.compile(
     isPublished: vine.boolean().optional(),
   })
 )
+
+export const createResource = vine.compile(
+  vine.object({
+    title: vine.string(),
+    description: vine.string(),
+    file: vine
+      .file({
+        size: '500mb',
+        extnames: ['pdf'],
+      })
+      .nullable(),
+    countryId: vine.string(),
+    continentId: vine.string(),
+    classification: vine.string(),
+  })
+)
