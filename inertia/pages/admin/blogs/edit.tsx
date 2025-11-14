@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useState } from 'react'
 import AdminLayout from '../layout'
 import { Head, useForm, Link, usePage } from '@inertiajs/react'
-import TipTapEditor from '../../../components/TipTapEditor'
 import EditorQuill from '../components/editor-with-use-quill'
 import SelectMenu from '~/pages/web/components/select-menu'
 import { useEffect } from 'react'
@@ -51,7 +50,6 @@ export default function EditBlog({ blog }: EditBlogProps) {
     id: string
     label: string
   } | null>(null)
-
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -112,8 +110,8 @@ export default function EditBlog({ blog }: EditBlogProps) {
       <div className="space-y-6">
         {/* En-tête */}
         <div>
-          <div className="flex items-center space-x-2">
-            <Link href="/admin/blogs" className="text-[#288FC4] hover:text-[#288FC4]">
+          <div className="flex items-start space-x-2">
+            <Link href="/admin/blogs" className="text-[#288FC4] mt-1 hover:text-[#288FC4]">
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
                   strokeLinecap="round"
@@ -123,9 +121,11 @@ export default function EditBlog({ blog }: EditBlogProps) {
                 />
               </svg>
             </Link>
-            <h1 className="text-2xl font-bold text-gray-900">Modifier le Blog</h1>
+            <div className="flex flex-col">
+              <h1 className="text-2xl font-bold text-gray-900">Modifier l'article</h1>
+              <p className="mt-1 text-sm text-gray-500">Modifiez l'article "{blog.title}"</p>
+            </div>
           </div>
-          <p className="mt-1 text-sm text-gray-500">Modifiez l'article "{blog.title}"</p>
         </div>
 
         {/* Formulaire */}

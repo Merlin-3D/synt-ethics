@@ -7,7 +7,6 @@ import { DateTime } from 'luxon'
 import Country from '#models/country'
 import Continents from '#models/continent'
 import drive from '@adonisjs/drive/services/main'
-import { cuid } from '@adonisjs/core/helpers'
 import env from '#start/env'
 import Resources from '#models/resources'
 
@@ -110,8 +109,8 @@ export default class BlogsController {
   }
 
   async indexResources({ inertia }: HttpContext) {
-    // const blogs = await Articles.query().preload('author').preload('category')
-    return inertia.render('admin/resources/index', { resources: [] })
+    const resources = await Resources.query().preload('continent').preload('country')
+    return inertia.render('admin/resources/index', { resources: resources })
   }
 
   async createResources({ inertia }: HttpContext) {
@@ -150,7 +149,58 @@ export default class BlogsController {
       return response.redirect().back()
     }
   }
+
+  async editResources({ inertia, params }: HttpContext) {
+    const countries = await Country.query()
+    const continents = await Continents.query()
+    const resource = await Resources.query()
+      .where('id', params.id)
+      .preload('continent')
+      .preload('country')
+      .first()
+
+    return inertia.render('admin/resources/edit', { resource, countries, continents })
+  }
+
+  async updateResources({ params, request, response, inertia }: HttpContext) {
+    try {
+      const data = await request.validateUsing(validator.updateResource)
+      const resource = await Resources.findOrFail(params.id)
+
+      resource.merge({
+        title: data.title,
+        description: data.description,
+        document: resource.document,
+        countryId: data.countryId,
+        continentId: data.continentId,
+        classification: data.classification,
+        size: `${resource.size}`,
+      })
+      await resource.save()
+      const countries = await Country.query()
+      const continents = await Continents.query()
+      await resource.load('continent')
+      await resource.load('country')
+      return inertia.render('admin/resources/edit', {
+        error: null,
+        success: 'Mise à jour avec succès',
+        countries,
+        continents,
+        resource,
+      })
+    } catch (error) {
+      return response.redirect().back()
+    }
+  }
+
+  async destroyResources({ params, response }: HttpContext) {
+    const resource = await Resources.findOrFail(params.id)
+    await drive.use(disk).delete(resource?.document)
+    await resource.delete()
+    return response.redirect('/admin/resources')
+  }
 }
+
 function generateMediaFilename(index: number = 1) {
   const datePart = DateTime.local().toFormat('yyyyLLdd') // ex: 20250711
   const count = String(index).padStart(4, '0') // 0001, 0002...

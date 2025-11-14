@@ -51,3 +51,13 @@ export const createResource = vine.compile(
     classification: vine.string(),
   })
 )
+
+export const updateResource = vine.compile(
+  vine.object({
+    title: vine.string(),
+    description: vine.string(),
+    countryId: vine.string(),
+    continentId: vine.string(),
+    classification: vine.string(),
+  })
+)

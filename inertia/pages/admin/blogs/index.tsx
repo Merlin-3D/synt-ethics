@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import AdminLayout from '../layout'
 import { Head, Link, useForm } from '@inertiajs/react'
 import DocumentIcon from '~/pages/web/components/icons/document.icon'
+import { formatDate } from '~/utils/common'
 
 interface Blog {
   id: string
@@ -14,7 +15,6 @@ interface Blog {
   author: {
     fullName: string | null
   }
-  // Ajout de champs optionnels pour enrichir l'affichage
   coverImage?: string | null
   readTime?: number
   views?: number
@@ -27,8 +27,6 @@ interface BlogsIndexProps {
 export default function BlogsIndex({ blogs }: BlogsIndexProps) {
   const { delete: destroy } = useForm()
   const [searchTerm, setSearchTerm] = useState('')
-  const [statusFilter, setStatusFilter] = useState<'all' | 'published' | 'draft'>('all')
-  const [categoryFilter, setCategoryFilter] = useState('all')
 
   const handleDelete = (blogId: string) => {
     if (
@@ -36,14 +34,6 @@ export default function BlogsIndex({ blogs }: BlogsIndexProps) {
     ) {
       destroy(`/admin/blogs/${blogId}`)
     }
-  }
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('fr-FR', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    })
   }
 
   const getStatusBadge = (isPublished: boolean) => {
@@ -83,17 +73,8 @@ export default function BlogsIndex({ blogs }: BlogsIndexProps) {
   const filteredBlogs = blogs.filter((blog) => {
     const matchesSearch =
       blog.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      blog.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      blog.author.fullName?.toLowerCase().includes(searchTerm.toLowerCase())
-
-    const matchesStatus =
-      statusFilter === 'all' ||
-      (statusFilter === 'published' && blog.isPublished) ||
-      (statusFilter === 'draft' && !blog.isPublished)
-
-    const matchesCategory = categoryFilter === 'all' || blog.category.label === categoryFilter
-
-    return matchesSearch && matchesStatus && matchesCategory
+      blog.description.toLowerCase().includes(searchTerm.toLowerCase())
+    return matchesSearch
   })
 
   return (
@@ -366,7 +347,7 @@ export default function BlogsIndex({ blogs }: BlogsIndexProps) {
                 <DocumentIcon className="mx-auto h-16 w-16 text-gray-400" />
                 <h3 className="mt-4 text-lg font-medium text-gray-900">Aucun article trouvé</h3>
                 <p className="mt-2 text-sm text-gray-500">
-                  {searchTerm || statusFilter !== 'all' || categoryFilter !== 'all'
+                  {searchTerm
                     ? 'Aucun article ne correspond à vos critères de recherche.'
                     : 'Commencez par créer votre premier article.'}
                 </p>

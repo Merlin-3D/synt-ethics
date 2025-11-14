@@ -85,8 +85,8 @@ export default function CreateBlog() {
 
       <div className="space-y-6">
         <div>
-          <div className="flex items-center space-x-2">
-            <Link href="/admin/blogs" className="text-[#288FC4] hover:text-[#288FC4]">
+          <div className="flex items-start space-x-2">
+            <Link href="/admin/blogs" className="text-[#288FC4] mt-1 hover:text-[#288FC4]">
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path
                   strokeLinecap="round"

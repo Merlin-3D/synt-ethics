@@ -1,6 +1,7 @@
 import { defineConfig } from '@adonisjs/inertia'
 import type { InferSharedProps } from '@adonisjs/inertia/types'
 import Category from '#models/category'
+import env from '#start/env'
 
 const inertiaConfig = defineConfig({
   /**
@@ -14,6 +15,9 @@ const inertiaConfig = defineConfig({
   sharedData: {
     user: (ctx) => ctx.inertia.always(() => ctx.auth.user),
     categories: async () => await Category.query(),
+    filePath: () => {
+      return env.get('R2_PUBLIC_URL')
+    },
   },
 
   /**

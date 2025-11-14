@@ -26,28 +26,32 @@ export default function EditUser({ user }: EditUserProps) {
   return (
     <AdminLayout title="Modifier l'Utilisateur">
       <Head title="Modifier l'Utilisateur - Administration" />
-      
+
       <div className="space-y-6">
         {/* En-tête */}
         <div>
-          <div className="flex items-center space-x-2">
-            <Link
-              href="/admin/users"
-              className="text-[#288FC4] hover:text-[#288FC4]"
-            >
+          <div className="flex items-start space-x-2">
+            <Link href="/admin/users" className="text-[#288FC4] mt-1 hover:text-[#288FC4]">
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
             </Link>
-            <h1 className="text-2xl font-bold text-gray-900">Modifier l'Utilisateur</h1>
+            <div className="flex flex-col">
+              <h1 className="text-2xl font-bold text-gray-900">Modifier l'Utilisateur</h1>
+              <p className="mt-1 text-sm text-gray-500">
+                Modifiez les informations de {user.fullName || user.email}
+              </p>
+            </div>
           </div>
-          <p className="mt-1 text-sm text-gray-500">
-            Modifiez les informations de {user.fullName || user.email}
-          </p>
         </div>
 
         {/* Formulaire */}
-        <div className="bg-white shadow-lg rounded-xl border border-gray-100">
+        <div className="bg-white">
           <form onSubmit={handleSubmit} className="space-y-8 p-8">
             {/* Nom complet */}
             <div>
@@ -61,13 +65,13 @@ export default function EditUser({ user }: EditUserProps) {
                 value={data.fullName}
                 onChange={(e) => setData('fullName', e.target.value)}
                 className={`mt-2 block w-full px-4 py-3 rounded-lg border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#288FC4]/20 focus:border-[#288FC4] text-gray-900 placeholder-gray-500 ${
-                  errors.fullName ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20' : 'border-gray-200 hover:border-gray-300'
+                  errors.fullName
+                    ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20'
+                    : 'border-gray-200 hover:border-gray-300'
                 }`}
                 placeholder="Entrez le nom complet"
               />
-              {errors.fullName && (
-                <p className="mt-1 text-sm text-red-600">{errors.fullName}</p>
-              )}
+              {errors.fullName && <p className="mt-1 text-sm text-red-600">{errors.fullName}</p>}
             </div>
 
             {/* Email */}
@@ -83,13 +87,13 @@ export default function EditUser({ user }: EditUserProps) {
                 value={data.email}
                 onChange={(e) => setData('email', e.target.value)}
                 className={`mt-2 block w-full px-4 py-3 rounded-lg border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#288FC4]/20 focus:border-[#288FC4] text-gray-900 placeholder-gray-500 ${
-                  errors.email ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20' : 'border-gray-200 hover:border-gray-300'
+                  errors.email
+                    ? 'border-red-300 focus:border-red-500 focus:ring-red-500/20'
+                    : 'border-gray-200 hover:border-gray-300'
                 }`}
                 placeholder="exemple@email.com"
               />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-              )}
+              {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
             </div>
 
             {/* Boutons d'action */}
@@ -107,14 +111,30 @@ export default function EditUser({ user }: EditUserProps) {
               >
                 {processing ? (
                   <>
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <svg
+                      className="animate-spin -ml-1 mr-2 h-4 w-4 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
                     </svg>
                     Modification...
                   </>
                 ) : (
-                  'Modifier l\'utilisateur'
+                  "Modifier l'utilisateur"
                 )}
               </button>
             </div>
@@ -123,4 +143,4 @@ export default function EditUser({ user }: EditUserProps) {
       </div>
     </AdminLayout>
   )
-} 
+}

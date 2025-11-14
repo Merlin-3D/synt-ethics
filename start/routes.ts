@@ -68,7 +68,10 @@ router
         // Gestion des ressources
         router.get('/resources', [BlogsController, 'indexResources'])
         router.get('/resources/create', [BlogsController, 'createResources'])
+        router.get('/resources/:id/edit', [BlogsController, 'editResources'])
         router.post('/resources/create', [BlogsController, 'storeResources'])
+        router.delete('/resources/:id', [BlogsController, 'destroyResources'])
+        router.put('/resources/:id/edit', [BlogsController, 'updateResources'])
       })
       .use([middleware.auth()])
   })

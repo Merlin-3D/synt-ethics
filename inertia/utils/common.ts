@@ -41,6 +41,14 @@ export const countries: { code: string; label: string }[] = [
   { code: 'OTHER', label: 'Autre' },
 ]
 
+export const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString('fr-FR', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  })
+}
+
 export const types: { id: string; label: string }[] = [
   {
     id: '0',
@@ -66,3 +74,13 @@ export const classifications: { id: string; label: string }[] = [
     label: 'Lignes directrices et softlaw',
   },
 ]
+
+export function formatFileSize(bytes: number): string {
+  if (bytes === 0) return '0 Bytes'
+
+  const k = 1024
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
+  const i = Math.floor(Math.log(bytes) / Math.log(k))
+
+  return Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+}
