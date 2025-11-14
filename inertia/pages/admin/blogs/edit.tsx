@@ -75,7 +75,7 @@ export default function EditBlog({ blog }: EditBlogProps) {
     if (e.target.files && e.target.files.length > 0) {
       const selectedFile = e.target.files[0]
 
-      const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/web']
+      const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp']
       if (!allowedTypes.includes(selectedFile.type)) {
         toast.error('Seuls les fichiers PNG et JPEG sont autorisés.')
         return
@@ -186,7 +186,7 @@ export default function EditBlog({ blog }: EditBlogProps) {
                 type="file"
                 id="coverImage"
                 name="coverImage"
-                accept="image/png, image/jpeg, image/jpg, image/web"
+                accept="image/png, image/jpeg, image/jpg, image/webp"
                 onChange={handleFileChange}
                 className={`mt-2 block w-full px-4 py-3 rounded-lg border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#288FC4]/20 focus:border-[#288FC4] text-gray-900 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#288FC4]file:text-[#288FC4] hover:file:bg-[#288FC4] ${
                   errors.coverImage

@@ -13,8 +13,8 @@ import Resources from '#models/resources'
 const disk = env.get('DRIVE_DISK') as any
 export default class BlogsController {
   async index({ inertia }: HttpContext) {
-    const blogs = await Articles.query().preload('author').preload('category')
-    return inertia.render('admin/blogs/index', { blogs })
+    const articles = await Articles.query().preload('author').preload('category')
+    return inertia.render('admin/blogs/index', { articles })
   }
 
   async create({ inertia }: HttpContext) {

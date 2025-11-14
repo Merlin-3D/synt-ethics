@@ -5,8 +5,25 @@ import SearchIcon from './web/components/icons/search.icon'
 import CardArticle from './web/components/card-artcile'
 import Footer from './web/layouts/footer'
 import Banner from './web/layouts/banner'
+import { ArticleResponse } from '~/dto/article'
+import SearchModal, { SearchResult } from './web/components/search-modal'
+import { useSearchModal } from './web/hooks/use-search-modal'
+import { router } from '@inertiajs/react'
 
-export default function Home() {
+interface HomeProps {
+  articles: ArticleResponse[]
+}
+
+export default function Home({ articles }: HomeProps) {
+  const firstRowArticles = articles.slice(0, 2)
+  const secondRowArticles = articles.slice(2, 5)
+
+  const { isSearchModalOpen, openSearchModal, closeSearchModal } = useSearchModal()
+
+  const handleResultClick = (result: SearchResult) => {
+    router.visit(`/actualities/${result.id}`)
+  }
+
   return (
     <div className="p-1">
       <Banner
@@ -30,7 +47,8 @@ export default function Home() {
             </div>
             <div className="container mx-auto max-w-3xl">
               <Input
-                placeholder="Search articles..."
+                placeholder="Rechercher articles..."
+                onClick={openSearchModal}
                 startIcon={<SearchIcon className="h-5 w-5" />}
               />
             </div>
@@ -58,20 +76,33 @@ export default function Home() {
           </p>
 
           <div className="grid sm:grid-cols-2 gap-6 mt-10">
-            <CardArticle />
-            <CardArticle />
+            {firstRowArticles.map((article, index) => (
+              <CardArticle key={index} article={article} />
+            ))}
           </div>
           <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6 mt-6">
-            <CardArticle />
-            <CardArticle />
-            <CardArticle />
+            {secondRowArticles.map((article, index) => (
+              <CardArticle key={index} article={article} />
+            ))}
           </div>
 
-          <div className="cursor-pointer flex items-center justify-center w-full border border-gray-200 rounded-xl p-4 mt-10">
+          <a
+            href={'/actualities'}
+            className="cursor-pointer flex items-center justify-center w-full border border-gray-200 rounded-xl p-4 mt-10"
+          >
             <span className="font-semibold font-text">Voir Plus</span>
-          </div>
+          </a>
         </div>
       </section>
+      <SearchModal
+        isOpen={isSearchModalOpen}
+        onClose={closeSearchModal}
+        searchEndpoint="/api/search/articles/type/0"
+        placeholder="Tapez le titre d'un article..."
+        title="Rechercher des articles"
+        onResultClick={handleResultClick}
+        minQueryLength={2}
+      />
       <Footer />
     </div>
   )

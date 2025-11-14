@@ -4,17 +4,53 @@ import SearchIcon from './components/icons/search.icon'
 import heroBlog from '~/assets/images/hero-blog.png'
 import Footer from './layouts/footer'
 import CardBlog from './components/card-blog'
-import ArrowRightIcon from './components/icons/arrow-right'
+import { ArticleResponse } from '~/dto/article'
+import Pagination from './components/pagination'
+import { usePage, router } from '@inertiajs/react'
+import { useState } from 'react'
+import WebInterface from '~/interceptor/web.interceptor'
+import { useSearchModal } from './hooks/use-search-modal'
+import SearchModal, { SearchResult } from './components/search-modal'
 
-const categories = [
-  'Catégories',
-  'Analyses',
-  'Articles scientifiques',
-  'Manifestations',
-  'Découvertes',
-]
+interface BlogProps {
+  data: {
+    data: ArticleResponse[]
+    meta: {
+      total: number
+      perPage: number
+      currentPage: number
+      lastPage: number
+      firstPage: number
+      firstPageUrl: string | null
+      lastPageUrl: string | null
+      nextPageUrl: string | null
+      previousPageUrl: string | null
+    }
+  }
+  categories: { id: string; label: string }[]
+  selectedCategory?: string | null
+}
 
-export default function Blog() {
+export default function Blog({ data, categories, selectedCategory: initialCategory }: BlogProps) {
+  const { isSearchModalOpen, openSearchModal, closeSearchModal } = useSearchModal()
+
+  const handleCategoryClick = (categoryId: string) => {
+    if (initialCategory === categoryId) {
+      router.get('/blog')
+    } else {
+      router.get('/blog', { category: categoryId })
+    }
+  }
+
+  const clearFilter = () => {
+    router.get('/blog')
+  }
+
+  // Gestion personnalisée du clic sur un résultat (optionnel)
+  const handleResultClick = (result: SearchResult) => {
+    router.visit(`/blog/${result.id}`)
+  }
+
   return (
     <div className="p-1">
       <Banner
@@ -28,98 +64,78 @@ export default function Blog() {
               </p>
             </div>
             <div className="container mx-auto max-w-3xl">
-              <Input
-                placeholder="Rechercher blog..."
-                startIcon={<SearchIcon className="h-5 w-5" />}
-              />
+              <div onClick={openSearchModal}>
+                <Input
+                  placeholder="Rechercher blog..."
+                  startIcon={<SearchIcon className="h-5 w-5" />}
+                  readOnly
+                />
+              </div>
             </div>
           </>
         }
       />
+
+      {/* Modal de recherche réutilisable */}
+      <SearchModal
+        isOpen={isSearchModalOpen}
+        onClose={closeSearchModal}
+        searchEndpoint="/api/search/articles/type/1"
+        placeholder="Tapez le titre d'un blog..."
+        title="Rechercher des blog"
+        onResultClick={handleResultClick}
+        minQueryLength={2}
+        type="1"
+      />
+
       <section className="p-4 xl:px-0 mx-auto max-w-6xl lg:my-16">
+        {initialCategory && (
+          <div className="mb-4 flex items-center gap-2">
+            <span className="text-sm text-gray-600">Filtre actif :</span>
+            <div className="bg-[#20729D] text-white text-sm rounded-xl px-3 py-1 flex items-center gap-2">
+              {categories.find((cat) => cat.id === initialCategory)?.label}
+              <button onClick={clearFilter} className="text-white hover:text-gray-200 ml-1">
+                ×
+              </button>
+            </div>
+          </div>
+        )}
+
         <div className="flex flex-wrap gap-3 pb-8">
-          {categories.map((item) => {
+          {categories.map((item, i) => {
+            const isSelected = initialCategory === item.id
             return (
-              <div className="border border-gray-200 text-sm rounded-xl p-2 cursor-pointer">
-                {item}
+              <div
+                onClick={() => handleCategoryClick(item.id)}
+                key={i}
+                className={`
+                  border text-sm rounded-xl p-2 cursor-pointer transition-all duration-200
+                  ${
+                    isSelected
+                      ? 'border-[#20729D] bg-[#20729D] text-white'
+                      : 'border-gray-200 text-gray-700 hover:border-[#20729D] hover:text-[#20729D]'
+                  }
+                `}
+              >
+                {item.label}
               </div>
             )
           })}
         </div>
 
         <div className="flex flex-col gap-6">
-          {[1, 2, 3, 4, 5, 6].map((_) => {
-            return <CardBlog />
-          })}
+          {data.data.map((article, index) => (
+            <CardBlog key={index} article={article} />
+          ))}
         </div>
-        <nav className="flex items-center w-full mt-6 justify-between border-t border-gray-200 px-4 sm:px-0 dark:border-white/10">
-          <div className="-mt-px flex w-0 flex-1">
-            <a
-              href="#"
-              className="inline-flex items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-500 hover:border-[#20729D] hover:text-[#20729D]"
-            >
-              <ArrowRightIcon
-                aria-hidden="true"
-                className="mr-3 size-5 rotate-180 text-[#20729D]"
-              />
-              Previous
-            </a>
+
+        {data.data.length === 0 && (
+          <div className="text-center py-8 text-gray-500">
+            Aucun article trouvé pour cette catégorie.
           </div>
-          <div className="hidden md:-mt-px md:flex">
-            <a
-              href="#"
-              className="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-            >
-              1
-            </a>
-            <a
-              href="#"
-              aria-current="page"
-              className="inline-flex items-center border-t-2 border-[#20729D] px-4 pt-4 text-sm font-medium text-[#20729D] dark:border-[#20729D]"
-            >
-              2
-            </a>
-            <a
-              href="#"
-              className="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-            >
-              3
-            </a>
-            <span className="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500">
-              ...
-            </span>
-            <a
-              href="#"
-              className="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-            >
-              8
-            </a>
-            <a
-              href="#"
-              className="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-            >
-              9
-            </a>
-            <a
-              href="#"
-              className="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-            >
-              10
-            </a>
-          </div>
-          <div className="-mt-px flex w-0 flex-1 justify-end">
-            <a
-              href="#"
-              className="inline-flex items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-500 hover:border-[#20729D] hover:text-[#20729D]"
-            >
-              Next
-              <ArrowRightIcon
-                aria-hidden="true"
-                className="ml-3 size-5 text-gray-400 dark:text-gray-500"
-              />
-            </a>
-          </div>
-        </nav>
+        )}
+
+        <Pagination meta={data.meta} />
       </section>
       <Footer />
     </div>

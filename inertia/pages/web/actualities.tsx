@@ -5,9 +5,35 @@ import heroActualities from '~/assets/images/hero-actualities.png'
 import CardArticle from './components/card-artcile'
 import divider from '~/assets/images/divider.png'
 import Footer from './layouts/footer'
-import ArrowRightIcon from './components/icons/arrow-right'
+import { ArticleResponse } from '~/dto/article'
+import Pagination from './components/pagination'
+import SearchModal, { SearchResult } from './components/search-modal'
+import { useSearchModal } from './hooks/use-search-modal'
+import { router } from '@inertiajs/react'
 
-export default function Actualities() {
+interface ActualitiesProps {
+  data: {
+    data: ArticleResponse[]
+    meta: {
+      total: number
+      perPage: number
+      currentPage: number
+      lastPage: number
+      firstPage: number
+      firstPageUrl: string | null
+      lastPageUrl: string | null
+      nextPageUrl: string | null
+      previousPageUrl: string | null
+    }
+  }
+}
+
+export default function Actualities({ data }: ActualitiesProps) {
+  const { isSearchModalOpen, openSearchModal, closeSearchModal } = useSearchModal()
+
+  const handleResultClick = (result: SearchResult) => {
+    router.visit(`/actualities/${result.id}`)
+  }
   return (
     <div className="p-1">
       <Banner
@@ -17,7 +43,8 @@ export default function Actualities() {
           <>
             <div className="container mx-auto max-w-3xl mt-16">
               <Input
-                placeholder="Search articles..."
+                placeholder="Rechercher articles..."
+                onClick={openSearchModal}
                 startIcon={<SearchIcon className="h-5 w-5" />}
               />
             </div>
@@ -38,85 +65,29 @@ export default function Actualities() {
         </div>
 
         <div className="p-4 xl:px-0 flex flex-col items-start my-20">
-          <div className="grid sm:grid-cols-2 gap-6 mt-10">
-            <CardArticle />
-            <CardArticle />
-          </div>
           <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-6 mt-6">
-            <CardArticle />
-            <CardArticle />
-            <CardArticle />
+            {data.data.map((article, index) => (
+              <CardArticle key={index} article={article} />
+            ))}
           </div>
-          <nav className="flex items-center w-full mt-6 justify-between border-t border-gray-200 px-4 sm:px-0 dark:border-white/10">
-            <div className="-mt-px flex w-0 flex-1">
-              <a
-                href="#"
-                className="inline-flex items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-500 hover:border-[#20729D] hover:text-[#20729D]"
-              >
-                <ArrowRightIcon
-                  aria-hidden="true"
-                  className="mr-3 size-5 rotate-180 text-[#20729D]"
-                />
-                Previous
-              </a>
-            </div>
-            <div className="hidden md:-mt-px md:flex">
-              <a
-                href="#"
-                className="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-              >
-                1
-              </a>
-              <a
-                href="#"
-                aria-current="page"
-                className="inline-flex items-center border-t-2 border-[#20729D] px-4 pt-4 text-sm font-medium text-[#20729D] dark:border-[#20729D]"
-              >
-                2
-              </a>
-              <a
-                href="#"
-                className="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-              >
-                3
-              </a>
-              <span className="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500">
-                ...
-              </span>
-              <a
-                href="#"
-                className="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-              >
-                8
-              </a>
-              <a
-                href="#"
-                className="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-              >
-                9
-              </a>
-              <a
-                href="#"
-                className="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700"
-              >
-                10
-              </a>
-            </div>
-            <div className="-mt-px flex w-0 flex-1 justify-end">
-              <a
-                href="#"
-                className="inline-flex items-center border-t-2 border-transparent pr-1 pt-4 text-sm font-medium text-gray-500 hover:border-[#20729D] hover:text-[#20729D]"
-              >
-                Next
-                <ArrowRightIcon
-                  aria-hidden="true"
-                  className="ml-3 size-5 text-gray-400 dark:text-gray-500"
-                />
-              </a>
-            </div>
-          </nav>
+
+          {data.data.length === 0 && (
+            <div className="text-center py-8 text-gray-500">Aucune actualié trouvé.</div>
+          )}
+          <Pagination meta={data.meta} />
         </div>
       </section>
+
+      <SearchModal
+        isOpen={isSearchModalOpen}
+        onClose={closeSearchModal}
+        searchEndpoint="/api/search/articles/type/0"
+        placeholder="Tapez le titre d'une actualité..."
+        title="Rechercher des actualités"
+        onResultClick={handleResultClick}
+        minQueryLength={2}
+        type="0"
+      />
       <Footer />
     </div>
   )

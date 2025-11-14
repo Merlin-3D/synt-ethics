@@ -34,24 +34,28 @@ export default function CreateBlog() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    post('/admin/blogs/create', {
-      onSuccess: (data) => {
-        reset()
-        setCategory(null)
-        setType(null)
-        setEditorContent('')
-        data.props.success !== null
-          ? toast.success(`${data.props.success}`)
-          : data.props.error !== null && toast.error(`${data.props.error}`)
-      },
-    })
+    if (category && type && editorContent) {
+      post('/admin/blogs/create', {
+        onSuccess: (data) => {
+          reset()
+          setCategory(null)
+          setType(null)
+          setEditorContent('')
+          data.props.success !== null
+            ? toast.success(`${data.props.success}`)
+            : data.props.error !== null && toast.error(`${data.props.error}`)
+        },
+      })
+    } else {
+      toast.error('Tous les champs obligatoires doivent être renseignés.')
+    }
   }
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const selectedFile = e.target.files[0]
 
-      const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/web']
+      const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp']
       if (!allowedTypes.includes(selectedFile.type)) {
         toast.error('Seuls les fichiers PNG et JPEG sont autorisés.')
         return
@@ -161,7 +165,7 @@ export default function CreateBlog() {
                 type="file"
                 id="coverImage"
                 name="coverImage"
-                accept="image/png, image/jpeg, image/jpg, image/web"
+                accept="image/png, image/jpeg, image/jpg, image/webp"
                 onChange={handleFileChange}
                 className={` ${
                   errors.coverImage

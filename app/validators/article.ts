@@ -7,7 +7,7 @@ export const createArticle = vine.compile(
     coverImage: vine
       .file({
         size: '5mb',
-        extnames: ['jpg', 'png', 'jpeg', 'web'],
+        extnames: ['jpg', 'png', 'jpeg', 'webp'],
       })
       .nullable(),
     categoryId: vine.string(),

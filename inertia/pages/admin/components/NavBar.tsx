@@ -1,11 +1,9 @@
 'use client'
 
 import Bars3Icon from '~/pages/web/components/icons/bars3.icon'
-import SearchIcon from '~/pages/web/components/icons/search.icon'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import ChevronIcon from '~/pages/web/components/icons/chevron.icon'
 import { useForm, usePage } from '@inertiajs/react'
-import Bars4Icon from '~/pages/web/components/icons/bars4.icon'
 
 const userNavigation = [{ name: 'Déconnexion', href: '#' }]
 

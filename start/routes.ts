@@ -33,6 +33,8 @@ router.get('/winnie', [WebController, 'winnie'])
 
 router.get('/resources', [WebController, 'resources'])
 
+router.get('/api/search/articles/type/:type', [WebController, 'articles'])
+
 // Routes d'administration
 router
   .group(() => {

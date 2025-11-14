@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon'
+
 export const countries: { code: string; label: string }[] = [
   { code: 'ZA', label: 'Afrique du Sud' },
   { code: 'DZ', label: 'Algérie' },
@@ -83,4 +85,9 @@ export function formatFileSize(bytes: number): string {
   const i = Math.floor(Math.log(bytes) / Math.log(k))
 
   return Number.parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
+}
+
+export function formatDate2(date: string): string {
+  if (!date) return ''
+  return DateTime.fromISO(date).toFormat('LLL dd, yyyy')
 }
