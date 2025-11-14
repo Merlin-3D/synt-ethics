@@ -6,7 +6,7 @@ import Footer from './layouts/footer'
 import CardBlog from './components/card-blog'
 import { ArticleResponse } from '~/dto/article'
 import Pagination from './components/pagination'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 import { useSearchModal } from './hooks/use-search-modal'
 import SearchModal, { SearchResult } from './components/search-modal'
 
@@ -51,6 +51,8 @@ export default function Blog({ data, categories, selectedCategory: initialCatego
 
   return (
     <div className="p-1">
+      <Head title="Blog" />
+
       <Banner
         title={<>Notre Blog</>}
         hero={heroBlog}

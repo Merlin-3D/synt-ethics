@@ -7,18 +7,20 @@ import Footer from './layouts/footer'
 import PdfIcon from './components/icons/pdf-icon'
 import { ResourceResponse } from '~/dto/resource'
 import { classifications, formatDate2, formatFileSize } from '~/utils/common'
-import { usePage } from '@inertiajs/react'
+import { Head, usePage } from '@inertiajs/react'
 
 interface RessourcesProps {
   continents: {
     id: string
     name: string
     nameFr: string
+    resources?: ResourceResponse[]
   }[]
   resources: ResourceResponse[]
+  allRessources: ResourceResponse[]
 }
 
-export default function Resources({ continents, resources }: RessourcesProps) {
+export default function Resources({allRessources, continents, resources }: RessourcesProps) {
   const { props } = usePage<any>()
   const [continent, setContinent] = useState<{
     id: string
@@ -31,8 +33,50 @@ export default function Resources({ continents, resources }: RessourcesProps) {
     label: string
   } | null>(null)
 
+  // États pour la recherche
+  const [searchTerm, setSearchTerm] = useState<string>('')
+  const [filteredResources, setFilteredResources] = useState<ResourceResponse[]>(resources)
+
+  // Fonction de recherche
+  const handleSearch = () => {
+    let filtered = allRessources
+
+    // Filtre par nom de ressource
+    if (searchTerm) {
+      filtered = filtered.filter((resource) =>
+        resource.title.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    }
+
+    // Filtre par continent
+    if (continent) {
+      filtered = filtered.filter(
+        (resource) =>
+          resource.country.region?.toLowerCase() === continent.name.toLowerCase() ||
+          resource.country.subregion?.toLowerCase() === continent.name.toLowerCase()
+      )
+    }
+
+    // Filtre par classification
+    if (classification) {
+      filtered = filtered.filter((resource) => resource.classification === classification.id)
+    }
+
+    setFilteredResources(filtered)
+  }
+
+  // Réinitialiser les filtres
+  const handleReset = () => {
+    setSearchTerm('')
+    setContinent(null)
+    setClassification(null)
+    setFilteredResources(resources)
+  }
+
   return (
     <div className="p-1">
+      <Head title="Ressources" />
+
       <Banner
         title={<>Ressources</>}
         hero={hero}
@@ -40,7 +84,11 @@ export default function Resources({ continents, resources }: RessourcesProps) {
           <div>
             <div className="flex flex-col justify-center mb-16 mt-10">
               <div className="flex flex-col md:flex-row items-center justify-center gap-4">
-                <Input placeholder="Nom de la ressource" />
+                <Input
+                  placeholder="Nom de la ressource"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
                 <SelectMenu<{
                   id: string
                   name: string
@@ -67,9 +115,18 @@ export default function Resources({ continents, resources }: RessourcesProps) {
                   className="w-full"
                 />
               </div>
-              <div className="mt-4">
-                <button className="inline-flex text-white bg-[#288FC4] border-0 py-2 px-12 focus:outline-none hover:bg-[#6BB1CF] rounded-xl text-lg">
+              <div className="mt-4 flex gap-4 justify-center">
+                <button
+                  className="inline-flex text-white bg-[#288FC4] border-0 py-2 px-12 focus:outline-none hover:bg-[#6BB1CF] rounded-xl text-lg"
+                  onClick={handleSearch}
+                >
                   Rechercher
+                </button>
+                <button
+                  className="inline-flex text-gray-700 bg-gray-200 border-0 py-2 px-12 focus:outline-none hover:bg-gray-300 rounded-xl text-lg"
+                  onClick={handleReset}
+                >
+                  Réinitialiser
                 </button>
               </div>
             </div>
@@ -118,7 +175,9 @@ export default function Resources({ continents, resources }: RessourcesProps) {
                   />
                 </svg>
 
-                <span className="font-medium text-[16px] text-[#0A0A0A]">{item.nameFr}</span>
+                <span className="font-medium text-[16px] text-[#0A0A0A]">
+                  {item.nameFr} ({item.resources?.length || 0})
+                </span>
               </a>
             )
           })}
@@ -128,10 +187,17 @@ export default function Resources({ continents, resources }: RessourcesProps) {
       <hr className="hidden lg:block mx-auto max-w-6xl lg:pt-16" />
 
       <section className="p-4 xl:px-0 pb-16 flex flex-col items-start mx-auto max-w-6xl">
-        <h1 className="font-semibold text-[32px] text-[#0A0A0A]">Ressources récentes</h1>
+        <div className="flex justify-between items-center w-full">
+          <h1 className="font-semibold text-[32px] text-[#0A0A0A]">Ressources récentes</h1>
+          {filteredResources.length !== resources.length && (
+            <div className="text-sm text-gray-600">
+              {filteredResources.length} résultat(s) sur {resources.length}
+            </div>
+          )}
+        </div>
 
         <div className="grid lg:grid-cols-3 md:grid-cols-2 mt-6 gap-3">
-          {resources.map((item) => {
+          {filteredResources.map((item) => {
             return (
               <div className="flex flex-col items-start justify-start gap-2 border border-gray-200 text-sm rounded-md px-2 py-4 cursor-pointer">
                 <h1 className="flex items-center gap-2">
@@ -203,8 +269,10 @@ export default function Resources({ continents, resources }: RessourcesProps) {
             )
           })}
 
-          {resources.length === 0 && (
-            <div className="text-center py-8 text-gray-500">Aucune ressource.</div>
+          {filteredResources.length === 0 && (
+            <div className="text-center py-8 text-gray-500 col-span-3">
+              Aucune ressource trouvée avec les critères de recherche sélectionnés.
+            </div>
           )}
         </div>
       </section>

@@ -21,7 +21,7 @@ export default function Header() {
     <>
       <header className="fixed top-6 left-1/2 -translate-x-1/2 bg-white shadow-md rounded-xl w-[90%] max-w-5xl z-50 px-4 py-2">
         <div className="flex items-center justify-between">
-          <a href="/" className="flex items-center text-gray-900">
+          <a href="/home" className="flex items-center text-gray-900">
             <LogoIcon className="w-24" />
           </a>
 

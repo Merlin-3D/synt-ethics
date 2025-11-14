@@ -2,10 +2,13 @@ import Banner from './layouts/banner'
 import heroAbout from '~/assets/images/hero-about.png'
 import aboutTarget from '~/assets/images/about-target.png'
 import Footer from './layouts/footer'
+import { Head } from '@inertiajs/react'
 
 export default function AboutUs() {
   return (
     <div className="p-1">
+      <Head title="A propos" />
+
       <Banner
         title={<>Qui sommes-nous ?</>}
         hero={heroAbout}

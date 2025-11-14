@@ -248,8 +248,8 @@ export default function ResourcesIndex({ resources }: ResourcesIndexProps) {
                 <h3 className="mt-4 text-lg font-medium text-gray-900">Aucune resource trouvée</h3>
                 <p className="mt-2 text-sm text-gray-500">
                   {searchTerm
-                    ? 'Aucun article ne correspond à vos critères de recherche.'
-                    : 'Commencez par créer votre premier article.'}
+                    ? 'Aucune resource ne correspond à vos critères de recherche.'
+                    : 'Commencez par créer votre premiere ressource.'}
                 </p>
                 <div className="mt-6">
                   <Link

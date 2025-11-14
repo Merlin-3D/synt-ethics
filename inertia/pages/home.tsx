@@ -8,7 +8,7 @@ import Banner from './web/layouts/banner'
 import { ArticleResponse } from '~/dto/article'
 import SearchModal, { SearchResult } from './web/components/search-modal'
 import { useSearchModal } from './web/hooks/use-search-modal'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 
 interface HomeProps {
   articles: ArticleResponse[]
@@ -26,6 +26,7 @@ export default function Home({ articles }: HomeProps) {
 
   return (
     <div className="p-1">
+      <Head title="Accueil" />
       <Banner
         title={
           <>

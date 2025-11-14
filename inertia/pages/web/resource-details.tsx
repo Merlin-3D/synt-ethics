@@ -4,23 +4,35 @@ import Header from './layouts/header'
 import AutoComplete from './components/auto-complete'
 import { useState, useEffect } from 'react'
 import { ResourceResponse } from '~/dto/resource'
-import { formatDate2, formatFileSize } from '~/utils/common'
+import { classifications, formatDate2, formatFileSize } from '~/utils/common'
 import PdfIcon from './components/icons/pdf-icon'
-import { usePage } from '@inertiajs/react'
+import { Head, router, usePage } from '@inertiajs/react'
+import ProjectIcon from './components/icons/project.icon'
+import classNames from 'classnames'
 
 interface ResourceDetailsProps {
   continent: {
     id: string
     name: string
     nameFr: string
+    resources?: ResourceResponse[]
   }
   continents: {
     id: string
     name: string
     nameFr: string
+    resources?: ResourceResponse[]
   }[]
   resources: ResourceResponse[]
-  countries: { id: string; name: string; region: string; subregion: string }[]
+  countries: {
+    id: string
+    name: string
+    region: string
+    subregion: string
+    resources?: ResourceResponse[]
+  }[]
+  country: string
+  classification: string
 }
 
 export default function ResourceDetails({
@@ -28,6 +40,8 @@ export default function ResourceDetails({
   countries,
   continent,
   resources,
+  country: countrySelected,
+  classification: classificationSelected,
 }: ResourceDetailsProps) {
   const { props } = usePage<any>()
 
@@ -35,7 +49,16 @@ export default function ResourceDetails({
     id: string
     name: string
     nameFr: string
+    resources?: ResourceResponse[]
   } | null>(null)
+
+  const [classification, setClassification] = useState<{
+    id: string
+    label: string
+  }>()
+
+  // Ajouter l'état pour la recherche
+  const [searchTerm, setSearchTerm] = useState<string>('')
 
   useEffect(() => {
     const fecthDefaultData = () => {
@@ -44,13 +67,27 @@ export default function ResourceDetails({
     fecthDefaultData()
   }, [continent, countries])
 
+  useEffect(() => {
+    const fecthDefaultData = () => {
+      setClassification(classifications.find((item) => item.id === classificationSelected))
+    }
+    fecthDefaultData()
+  }, [classificationSelected])
+
+  // Filtrer les ressources basé sur le terme de recherche
+  const filteredResources = resources.filter((resource) =>
+    resource.title.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
   return (
     <div>
+      <Head title="Ressources" />
+
       <div className={`bg-cover`}>
         <Header />
         <section className="mx-auto max-w-6xl">
           <div className="container mx-auto flex py-16 items-center justify-center flex-col">
-            <div className=" w-full pt-24">
+            <div className=" w-full pt-24 px-4 xl:px-0">
               <a href={'/resources'} className="flex items-center cursor-pointer mb-4">
                 <svg
                   width="36"
@@ -77,33 +114,43 @@ export default function ResourceDetails({
 
                 <span className="text-base text-medium text-[#101828]">Ressources</span>
               </a>
-              <Input placeholder="Nom de la ressource" />
+
+              {/* Input de recherche */}
+              <Input
+                placeholder="Nom de la ressource"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
           </div>
         </section>
 
-        <section className="bg-[#F5F5F5] py-16 ">
-          <div className="grid grid-cols-12 gap-8 mx-auto max-w-6xl">
-            <div className="col-span-4 bg-white p-4 rounded-xl">
+        <section className="bg-[#F5F5F5] py-16 px-4 xl:px-0">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mx-auto max-w-6xl">
+            <div className="col-span-8 lg:col-span-4 flex flex-col justify-between bg-white p-4 rounded-xl">
               <div>
-                <label htmlFor="category" className="block text-sm font-medium text-gray-700">
-                  Continents
-                </label>
-                <AutoComplete<{
-                  id: string
-                  name: string
-                  nameFr: string
-                }>
-                  data={continents}
-                  selected={continentData!}
-                  getLabel={(value) => value?.nameFr!}
-                  getKey={(value) => value!.id}
-                  onSelected={(value) => {
-                    setContinentData(value)
-                  }}
-                  label="Sélectionnez le continent"
-                  className="mt-1"
-                />
+                <div>
+                  <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+                    Continents
+                  </label>
+                  <AutoComplete<{
+                    id: string
+                    name: string
+                    nameFr: string
+                    resources?: ResourceResponse[]
+                  }>
+                    data={continents}
+                    selected={continentData!}
+                    getLabel={(value) => `${value?.nameFr!} (${value?.resources?.length || 0})`}
+                    getKey={(value) => value!.id}
+                    onSelected={(value) => {
+                      setContinentData(value)
+                      router.visit(`/resource/continent/${value.id}`)
+                    }}
+                    label="Sélectionnez le continent"
+                    className="mt-1"
+                  />{' '}
+                </div>
                 <ul className="mt-6 space-y-2">
                   {countries
                     .filter(
@@ -113,19 +160,64 @@ export default function ResourceDetails({
                     )
                     .map((item) => {
                       return (
-                        <li className="cursor-pointer text-base font-normal text-[#0A0A0A]">
-                          {item.name}
+                        <li>
+                          <a
+                            href={`/resource/continent/${continent.id}?country=${item.id}`}
+                            className={classNames(
+                              { 'text-[#288FC4] font-semibold': countrySelected === item.id },
+                              { 'text-[#0A0A0A] font-normal': countrySelected !== item.id },
+                              'cursor-pointer text-base '
+                            )}
+                          >
+                            {item.name} ({item.resources?.length || 0})
+                          </a>
                         </li>
                       )
                     })}
+                  {countries.filter(
+                    (item: { id: string; region: string; subregion: string }) =>
+                      item.region.toLowerCase() === continent?.name.toLowerCase() ||
+                      item.subregion.toLowerCase() === continent?.name.toLowerCase()
+                  ).length === 0 && (
+                    <div className="col-span-2 flex items-center w-full justify-center py-8 text-gray-500">
+                      <div className="max-w-md mx-auto flex flex-col justify-center items-center">
+                        <h3 className="mt-4 text-lg font-medium text-gray-400">Aucun pays</h3>
+                        <p className="mt-2 text-sm text-gray-300">Aucun pays disponibles.</p>
+                      </div>
+                    </div>
+                  )}
                 </ul>
+              </div>
+              <div>
+                <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+                  Classifications
+                </label>
+                <AutoComplete<{
+                  id: string
+                  label: string
+                }>
+                  data={classifications}
+                  getLabel={(value) => value!.label}
+                  getKey={(value) => value!.id}
+                  label="Sélectionnez la classification"
+                  selected={classification!}
+                  onSelected={(value) => {
+                    setClassification(value)
+                    router.visit(
+                      `/resource/continent/${continent.id}?classification=${value.id}&country=${countrySelected || ''}`
+                    )
+                  }}
+                  className="mt-1"
+                />{' '}
               </div>
             </div>
 
             <div className="col-span-8  bg-white p-4 rounded-xl">
-              <h5 className="block text-sm font-normal text-gray-700">23 ressources disponibles</h5>
+              <h5 className="block text-sm font-normal text-gray-700">
+                {filteredResources.length} ressources disponibles
+              </h5>
               <div className="grid lg:grid-cols-2 md:grid-cols-2 mt-6 gap-3">
-                {resources.map((item) => {
+                {filteredResources.map((item) => {
                   return (
                     <div className="flex flex-col items-start justify-start gap-2 border border-gray-200 text-sm rounded-md px-2 py-4 cursor-pointer">
                       <h1 className="flex items-center gap-2">
@@ -197,8 +289,14 @@ export default function ResourceDetails({
                   )
                 })}
 
-                {resources.length === 0 && (
-                  <div className="text-center py-8 text-gray-500">Aucune ressource.</div>
+                {filteredResources.length === 0 && (
+                  <div className="col-span-2 flex items-center w-full justify-center py-8 text-gray-500">
+                    <div className="max-w-md mx-auto flex flex-col justify-center items-center">
+                      <ProjectIcon className="mx-auto h-16 w-16 text-gray-100" />
+                      <h3 className="mt-4 text-lg font-medium text-gray-400">Aucune resource</h3>
+                      <p className="mt-2 text-sm text-gray-300">Aucune ressources disponibles.</p>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>

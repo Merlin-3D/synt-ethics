@@ -9,7 +9,7 @@ import { ArticleResponse } from '~/dto/article'
 import Pagination from './components/pagination'
 import SearchModal, { SearchResult } from './components/search-modal'
 import { useSearchModal } from './hooks/use-search-modal'
-import { router } from '@inertiajs/react'
+import { Head, router } from '@inertiajs/react'
 
 interface ActualitiesProps {
   data: {
@@ -36,6 +36,8 @@ export default function Actualities({ data }: ActualitiesProps) {
   }
   return (
     <div className="p-1">
+      <Head title="Actualités" />
+
       <Banner
         title={<>Actualités</>}
         hero={heroActualities}

@@ -28,7 +28,7 @@ export default function AdminLogin() {
         {/* Logo et titre */}
         <div className="flex flex-col items-center mb-8">
           <div className="h-14 w-14 bg-[#288FC4] rounded-xl flex items-center justify-center shadow-lg">
-            <a href="/" className="flex items-center text-gray-900">
+            <a href="/home" className="flex items-center text-gray-900">
               <LogoIcon className="w-24" />
             </a>
           </div>

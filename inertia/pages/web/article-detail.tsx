@@ -3,15 +3,18 @@ import CardArticle from './components/card-artcile'
 import Footer from './layouts/footer'
 import Header from './layouts/header'
 import { formatDate2, types } from '~/utils/common'
+import { Head } from '@inertiajs/react'
 
 interface ArticleDetailProps {
   article: ArticleResponse
   similars: ArticleResponse[]
 }
 export default function ArticleDetail({ article, similars }: ArticleDetailProps) {
-  console.log(article)
+
   return (
     <div className="p-2">
+      <Head title="Détails" />
+
       <div className={`bg-[#F5F5F5] bg-cover`}>
         <Header />
         <section className="mx-auto max-w-3xl">

@@ -84,8 +84,8 @@ export default function CreateBlog() {
   }
 
   return (
-    <AdminLayout title="Nouveau Blog">
-      <Head title="Nouveau Blog" />
+    <AdminLayout title="Nouvel Blog">
+      <Head title="Nouvel Blog" />
 
       <div className="space-y-6">
         <div>
@@ -101,7 +101,7 @@ export default function CreateBlog() {
               </svg>
             </Link>
             <div className="flex flex-col">
-              <h1 className="text-2xl font-bold text-gray-900">Nouveau Blog</h1>
+              <h1 className="text-2xl font-bold text-gray-900">Nouvel Blog</h1>
               <p className="mt-1 text-sm text-gray-500">Créez un nouvel article de blog</p>
             </div>
           </div>

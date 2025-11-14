@@ -1,3 +1,4 @@
+import { Head } from '@inertiajs/react'
 import Footer from './layouts/footer'
 import Header from './layouts/header'
 import winnie1 from '~/assets/images/winnie-1.png'
@@ -6,6 +7,8 @@ import winnie2 from '~/assets/images/winnie-2.png'
 export default function Winnie() {
   return (
     <div className="p-2">
+      <Head title="Fondateur" />
+
       <div className={`bg-[#F5F5F5] bg-cover`}>
         <Header />
         <section className="mx-auto max-w-6xl">

@@ -105,9 +105,16 @@ export default class WebController {
       .orderBy('createdAt', 'desc')
       .preload('country')
       .limit(3)
-    const continents = await Continents.query().orderBy('createdAt', 'asc')
 
-    return inertia.render('web/resources', { continents, resources }, { title: 'Ressources' })
+    const allRessources = await Resources.query().orderBy('createdAt', 'desc').preload('country')
+
+    const continents = await Continents.query().preload('resources').orderBy('createdAt', 'asc')
+
+    return inertia.render(
+      'web/resources',
+      { allRessources, continents, resources },
+      { title: 'Ressources' }
+    )
   }
 
   async articles({ params, request, response }: HttpContext) {
@@ -130,18 +137,56 @@ export default class WebController {
     return response.json({ data: articles })
   }
 
-  async resourcesDetail({ params, inertia }: HttpContext) {
-    const continent = await Continents.query().where('id', params.id).first()
+  async resourcesDetail({ params, inertia, request }: HttpContext) {
+    const { country, classification } = request.qs()
+
+    const continent = await Continents.query().where('id', params.id).preload('resources').first()
     if (!continent) {
       return
     }
-    const continents = await Continents.query().orderBy('createdAt', 'asc')
-    const countries = await Country.query().orderBy('createdAt', 'asc')
-    const resources = await Resources.query().orderBy('createdAt', 'desc').preload('country')
+    const continents = await Continents.query().preload('resources').orderBy('createdAt', 'asc')
+    const countries = await Country.query()
+      .has('resources')
+      .preload('resources')
+      .orderBy('createdAt', 'asc')
+
+    let resources: Resources[] = []
+    if (country && classification) {
+      resources = await Resources.query()
+        .where('continentId', continent.id)
+        .andWhere('countryId', country)
+        .andWhere('classification', classification)
+        .orderBy('createdAt', 'desc')
+        .preload('country')
+    } else if (classification) {
+      resources = await Resources.query()
+        .where('continentId', continent.id)
+        .andWhere('classification', classification)
+        .orderBy('createdAt', 'desc')
+        .preload('country')
+    } else if (country) {
+      resources = await Resources.query()
+        .where('continentId', continent.id)
+        .andWhere('countryId', country)
+        .orderBy('createdAt', 'desc')
+        .preload('country')
+    } else {
+      resources = await Resources.query()
+        .where('continentId', continent.id)
+        .orderBy('createdAt', 'desc')
+        .preload('country')
+    }
 
     return inertia.render(
       'web/resource-details',
-      { continent, continents, countries, resources },
+      {
+        continent,
+        continents,
+        countries,
+        resources,
+        country: country || null,
+        classification: classification || null,
+      },
       { title: 'Détails' }
     )
   }
