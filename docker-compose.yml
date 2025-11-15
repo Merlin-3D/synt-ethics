@@ -4,7 +4,7 @@ services:
       context: .
     container_name: synt-ethics
     ports:
-      - '3335:${PORT}'
+      - '3335:3333'
     environment:
       - 'NODE_ENV=${NODE_ENV}'
       - 'PORT=${PORT}'

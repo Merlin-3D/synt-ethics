@@ -12,7 +12,7 @@ RUN npm run build
 
 RUN cp .env.production.local /app/build/.env
 
-EXPOSE 3000
+EXPOSE 3333
 
 WORKDIR /app
 
