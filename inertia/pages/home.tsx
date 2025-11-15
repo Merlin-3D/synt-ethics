@@ -21,7 +21,7 @@ export default function Home({ articles }: HomeProps) {
   const { isSearchModalOpen, openSearchModal, closeSearchModal } = useSearchModal()
 
   const handleResultClick = (result: SearchResult) => {
-    router.visit(`/actualities/${result.id}`)
+    router.visit(`/article/${result.id}`)
   }
 
   return (

@@ -46,7 +46,7 @@ export default function Blog({ data, categories, selectedCategory: initialCatego
 
   // Gestion personnalisée du clic sur un résultat (optionnel)
   const handleResultClick = (result: SearchResult) => {
-    router.visit(`/blog/${result.id}`)
+    router.visit(`/article/${result.id}`)
   }
 
   return (

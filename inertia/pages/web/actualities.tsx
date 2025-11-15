@@ -32,7 +32,7 @@ export default function Actualities({ data }: ActualitiesProps) {
   const { isSearchModalOpen, openSearchModal, closeSearchModal } = useSearchModal()
 
   const handleResultClick = (result: SearchResult) => {
-    router.visit(`/actualities/${result.id}`)
+    router.visit(`/article/${result.id}`)
   }
   return (
     <div className="p-1">
