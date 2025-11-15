@@ -1,0 +1,19 @@
+services:
+  syntethics:
+    build:
+      context: .
+    container_name: synt-ethics
+    ports:
+      - '3000:${PORT}'
+    environment:
+      - 'NODE_ENV=${NODE_ENV}'
+      - 'PORT=${PORT}'
+      - 'HOST=${HOST}'
+      - 'DOMAIN=${DOMAIN}'
+      - 'DB_HOST=${DB_HOST}'
+      - 'DB_PORT=${DB_PORT}'
+    env_file:
+      - .env.production.local
+    networks:
+      - klarzo_network
+    restart: unless-stopped
