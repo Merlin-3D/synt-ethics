@@ -5,8 +5,17 @@ import react from '@vitejs/plugin-react'
 import adonisjs from '@adonisjs/vite/client'
 
 export default defineConfig({
-  plugins: [inertia({ ssr: { enabled: false } }), react(), adonisjs({ entrypoints: ['inertia/app/app.tsx'], reload: ['resources/views/**/*.edge'] })],
-
+  plugins: [
+    inertia({ ssr: { enabled: false } }),
+    react(),
+    adonisjs({ entrypoints: ['inertia/app/app.tsx'], reload: ['resources/views/**/*.edge'] }),
+  ],
+  server: {
+    hmr: {
+      host: 'localhost',
+    },
+    allowedHosts: ['analytics.klarzo.com'],
+  },
   /**
    * Define aliases for importing modules from
    * your frontend code
