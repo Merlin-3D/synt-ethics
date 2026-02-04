@@ -12,6 +12,7 @@ const DashboardController = () => import('#controllers/admin/dashboard_controlle
 const UsersController = () => import('#controllers/admin/users_controller')
 const BlogsController = () => import('#controllers/admin/blogs_controller')
 const WebController = () => import('#controllers/admin/web_controller')
+const CategoriesController = () => import('#controllers/admin/categories_controller')
 
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
@@ -76,6 +77,14 @@ router
         router.post('/resources/create', [BlogsController, 'storeResources'])
         router.delete('/resources/:id', [BlogsController, 'destroyResources'])
         router.put('/resources/:id/edit', [BlogsController, 'updateResources'])
+
+        // Gestion des catégories d'articles
+        router.get('/categories', [CategoriesController, 'index'])
+        router.get('/categories/create', [CategoriesController, 'create'])
+        router.post('/categories', [CategoriesController, 'store'])
+        router.get('/categories/:id/edit', [CategoriesController, 'edit'])
+        router.put('/categories/:id', [CategoriesController, 'update'])
+        router.delete('/categories/:id', [CategoriesController, 'destroy'])
       })
       .use([middleware.auth()])
   })

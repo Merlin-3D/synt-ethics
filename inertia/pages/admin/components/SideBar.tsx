@@ -11,12 +11,18 @@ import CustomerIcon from '~/pages/web/components/icons/customers.icon'
 import DocumentIcon from '~/pages/web/components/icons/document.icon'
 import LogoutIcon from '~/pages/web/components/icons/logout.icon'
 import ProjectIcon from '~/pages/web/components/icons/project.icon'
+import CategoryIcon from '~/pages/web/components/icons/category.icon'
 
 const navItems = [
   {
     name: 'Dashboard',
     href: '/admin/dashboard',
     icon: DashboardIcon,
+  },
+  {
+    name: 'Catégories',
+    href: '/admin/categories',
+    icon: CategoryIcon,
   },
   {
     name: 'Articles',
