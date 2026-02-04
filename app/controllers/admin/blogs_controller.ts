@@ -6,12 +6,9 @@ import Category from '#models/category'
 import { DateTime } from 'luxon'
 import Country from '#models/country'
 import Continents from '#models/continent'
-import drive from '@adonisjs/drive/services/main'
-import env from '#start/env'
 import Resources from '#models/resources'
 import app from '@adonisjs/core/services/app'
 
-const disk = env.get('DRIVE_DISK') as any
 export default class BlogsController {
   async index({ inertia }: HttpContext) {
     const articles = await Articles.query().preload('author').preload('category')
