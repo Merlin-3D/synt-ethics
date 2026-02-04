@@ -6,16 +6,35 @@
 | The routes file is used for defining the HTTP routes.
 |
 */
-
+import app from '@adonisjs/core/services/app'
 const AuthController = () => import('#controllers/auth_controller')
 const DashboardController = () => import('#controllers/admin/dashboard_controller')
 const UsersController = () => import('#controllers/admin/users_controller')
 const BlogsController = () => import('#controllers/admin/blogs_controller')
 const WebController = () => import('#controllers/admin/web_controller')
 const CategoriesController = () => import('#controllers/admin/categories_controller')
+import { normalize, sep } from 'node:path'
 
 import router from '@adonisjs/core/services/router'
 import { middleware } from './kernel.js'
+
+const PATH_TRAVERSAL_REGEX = /(?:^|[\\/])\.\.(?:[\\/]|$)/
+// Public routes
+router.group(() => {
+  // router.resource('countries', CountriesController).apiOnly()
+
+  router.get('/storage/*', ({ request, response }) => {
+    const filePath = request.param('*').join(sep)
+    const normalizedPath = normalize(filePath)
+
+    if (PATH_TRAVERSAL_REGEX.test(normalizedPath)) {
+      return response.badRequest('Malformed path')
+    }
+
+    const absolutePath = app.makePath('../storage', normalizedPath)
+    return response.download(absolutePath)
+  })
+})
 
 // Routes publiques
 router.get('/', [WebController, 'home'])

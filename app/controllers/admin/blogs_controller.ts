@@ -9,6 +9,7 @@ import Continents from '#models/continent'
 import drive from '@adonisjs/drive/services/main'
 import env from '#start/env'
 import Resources from '#models/resources'
+import app from '@adonisjs/core/services/app'
 
 const disk = env.get('DRIVE_DISK') as any
 export default class BlogsController {
@@ -123,10 +124,12 @@ export default class BlogsController {
     try {
       const data = await request.validateUsing(validator.createResource)
 
-      const fileName = `${generateMediaFilename(getRandomIndex())}.pdf`
-      const key = `/documents/${fileName}`
-      await data.file!.moveToDisk(key)
-      await drive.use(disk).getUrl(key)
+      const fileName = `${generateMediaFilename(getRandomIndex())}.${data.file!.extname}`
+      // const key = `../documents/${fileName}`
+      // await data.file!.moveToDisk(key)
+      await data.file!.move(app.makePath(`../storage/documents`))
+
+      // await drive.use(disk).getUrl(key)
 
       await Resources.create({
         title: data.title,
@@ -195,7 +198,13 @@ export default class BlogsController {
 
   async destroyResources({ params, response }: HttpContext) {
     const resource = await Resources.findOrFail(params.id)
-    await drive.use(disk).delete(resource?.document)
+    try {
+      const filePath = app.makePath('../storage/documents', resource.document)
+
+      await fs.unlink(filePath)
+    } catch (error) {
+      console.error('Impossible de supprimer le fichier physique:', error.message)
+    }
     await resource.delete()
     return response.redirect('/admin/resources')
   }
