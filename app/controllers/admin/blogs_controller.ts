@@ -121,10 +121,13 @@ export default class BlogsController {
     try {
       const data = await request.validateUsing(validator.createResource)
 
-      const fileName = `${generateMediaFilename(getRandomIndex())}.${data.file!.extname}`
-      // const key = `../documents/${fileName}`
-      // await data.file!.moveToDisk(key)
-      await data.file!.move(app.makePath(`../storage/documents`))
+      let fileName = ''
+      if (data.file) {
+        fileName = `${generateMediaFilename(getRandomIndex())}.${data.file!.extname}`
+        // const key = `../documents/${fileName}`
+        // await data.file!.moveToDisk(key)
+        await data.file!.move(app.makePath(`../storage/documents`))
+      }
 
       // await drive.use(disk).getUrl(key)
 

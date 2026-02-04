@@ -30,7 +30,7 @@ const navItems = [
     icon: DocumentIcon,
   },
   {
-    name: 'Resources',
+    name: 'Ressources',
     href: '/admin/resources',
     icon: ProjectIcon,
   },

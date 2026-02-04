@@ -38,7 +38,7 @@ export default function ResourcesIndex({ resources }: ResourcesIndexProps) {
       <div className="space-y-6">
         <div className="sm:flex sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Resources</h1>
+            <h1 className="text-2xl font-bold text-gray-900">Ressources</h1>
           </div>
           <div className="mt-4 sm:mt-0">
             <Link
@@ -58,7 +58,7 @@ export default function ResourcesIndex({ resources }: ResourcesIndexProps) {
                   d="M12 4v16m8-8H4"
                 />
               </svg>
-              Nouvelle resource
+              Nouvelle ressource
             </Link>
           </div>
         </div>
@@ -245,7 +245,7 @@ export default function ResourcesIndex({ resources }: ResourcesIndexProps) {
             <div className="text-center py-16">
               <div className="max-w-md mx-auto">
                 <ProjectIcon className="mx-auto h-16 w-16 text-gray-400" />
-                <h3 className="mt-4 text-lg font-medium text-gray-900">Aucune resource trouvée</h3>
+                <h3 className="mt-4 text-lg font-medium text-gray-900">Aucune ressource trouvée</h3>
                 <p className="mt-2 text-sm text-gray-500">
                   {searchTerm
                     ? 'Aucune resource ne correspond à vos critères de recherche.'
@@ -269,7 +269,7 @@ export default function ResourcesIndex({ resources }: ResourcesIndexProps) {
                         d="M12 4v16m8-8H4"
                       />
                     </svg>
-                    Nouvel Article
+                    Nouvelle Ressource
                   </Link>
                 </div>
               </div>
