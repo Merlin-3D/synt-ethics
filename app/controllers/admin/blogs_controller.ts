@@ -124,7 +124,7 @@ export default class BlogsController {
       const data = await request.validateUsing(validator.createResource)
 
       const fileName = `${generateMediaFilename(getRandomIndex())}.pdf`
-      const key = `/demo/${fileName}`
+      const key = `/documents/${fileName}`
       await data.file!.moveToDisk(key)
       await drive.use(disk).getUrl(key)
 

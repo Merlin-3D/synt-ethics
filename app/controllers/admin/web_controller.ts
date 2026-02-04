@@ -107,7 +107,6 @@ export default class WebController {
       .limit(3)
 
     const allRessources = await Resources.query().orderBy('createdAt', 'desc').preload('country')
-
     const continents = await Continents.query().preload('resources').orderBy('createdAt', 'asc')
 
     return inertia.render(

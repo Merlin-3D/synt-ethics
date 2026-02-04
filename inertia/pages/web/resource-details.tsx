@@ -266,13 +266,13 @@ export default function ResourceDetails({
                       </p>
                       <hr className="h-[0.5px] w-full bg-[#737379]" />
                       <div className="flex items-center gap-4">
-                        <a target="_blank" href={`${props.filePath}/demo/${item.document}`}>
+                        <a target="_blank" href={`${props.filePath}/documents/${item.document}`}>
                           <PdfIcon className="h-16 w-16" />
                         </a>
                         <div className="flex flex-col items-start">
                           <a
                             target="_blank"
-                            href={`${props.filePath}/demo/${item.document}`}
+                            href={`${props.filePath}/documents/${item.document}`}
                             className="text-gray-900 font-medium text-[16px] tracking-tight"
                           >
                             {item.document}

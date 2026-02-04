@@ -155,7 +155,7 @@ export default function ResourcesIndex({ resources }: ResourcesIndexProps) {
                         <PdfIcon className="h-16 w-16" />
                         <div className="flex-1 min-w-0">
                           <a
-                            href={`${props.filePath}/demo/${resource.document}`}
+                            href={`${props.filePath}/documents/${resource.document}`}
                             target="_blank"
                             className="text-sm font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors duration-200"
                           >
