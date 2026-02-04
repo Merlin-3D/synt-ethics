@@ -126,7 +126,9 @@ export default class BlogsController {
         fileName = `${generateMediaFilename(getRandomIndex())}.${data.file!.extname}`
         // const key = `../documents/${fileName}`
         // await data.file!.moveToDisk(key)
-        await data.file!.move(app.makePath(`../storage/documents`))
+        await data.file!.move(app.makePath(`../storage/documents`), {
+          name: fileName,
+        })
       }
 
       // await drive.use(disk).getUrl(key)
