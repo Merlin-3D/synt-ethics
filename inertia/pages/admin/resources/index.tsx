@@ -253,7 +253,7 @@ export default function ResourcesIndex({ resources }: ResourcesIndexProps) {
                 </p>
                 <div className="mt-6">
                   <Link
-                    href="/admin/blogs/create"
+                    href="/admin/resources/create"
                     className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#288FC4] hover:bg-[#1a7cb0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#288FC4] transition-colors duration-200"
                   >
                     <svg
