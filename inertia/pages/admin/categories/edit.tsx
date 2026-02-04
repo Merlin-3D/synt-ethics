@@ -120,4 +120,3 @@ export default function EditCategory({ category }: EditCategoryProps) {
     </AdminLayout>
   )
 }
-

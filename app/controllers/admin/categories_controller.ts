@@ -46,4 +46,3 @@ export default class CategoriesController {
     return response.redirect('/admin/categories')
   }
 }
-

@@ -10,10 +10,32 @@ interface ArticleDetailProps {
   similars: ArticleResponse[]
 }
 export default function ArticleDetail({ article, similars }: ArticleDetailProps) {
-
+  const pageTitle = `${article.title} | ${article.category.label} | Synt Ethics`
+  const description = article.description?.slice(0, 160)
+  const imageUrl = article.coverImage || ''
+  const canonicalUrl =
+    typeof window !== 'undefined'
+      ? `${window.location.origin}/article/${article.id}`
+      : `/article/${article.id}`
   return (
     <div className="p-2">
-      <Head title="Détails" />
+      <Head title={pageTitle}>
+        {/* Meta description */}
+        {description && <meta name="description" content={description} />}
+
+        {/* Open Graph */}
+        <meta property="og:title" content={pageTitle} />
+        {description && <meta property="og:description" content={description} />}
+        {imageUrl && <meta property="og:image" content={imageUrl} />}
+        <meta property="og:type" content="article" />
+        <meta property="og:url" content={canonicalUrl} />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content={imageUrl ? 'summary_large_image' : 'summary'} />
+        <meta name="twitter:title" content={pageTitle} />
+        {description && <meta name="twitter:description" content={description} />}
+        {imageUrl && <meta name="twitter:image" content={imageUrl} />}
+      </Head>
 
       <div className={`bg-[#F5F5F5] bg-cover`}>
         <Header />
