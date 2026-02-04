@@ -1,0 +1,11 @@
+{
+  "apps" : [
+    {
+      "name"      : "synt-ethics-website",
+      "script"    : "npm",
+      "interpreter": "none",
+      "args": "start"
+    }
+  ]
+}
+
