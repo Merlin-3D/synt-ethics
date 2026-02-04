@@ -14,7 +14,7 @@ export default defineConfig({
     hmr: {
       host: 'localhost',
     },
-    allowedHosts: ['analytics.klarzo.com'],
+    allowedHosts: ['syntethicsprivacy.eu', 'www.syntethicsprivacy.eu'],
   },
   /**
    * Define aliases for importing modules from
