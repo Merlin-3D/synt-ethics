@@ -8,7 +8,7 @@ interface CardBlogProps {
 
 export default function CardBlog({ article }: CardBlogProps) {
   return (
-    <div className="bg-white border border-gray-200 rounded-xl p-5 xl:h-52">
+    <div className="bg-white border border-gray-200 rounded-xl p-5">
       <div className="flex flex-col justify-between h-full">
         <div className="flex items-center gap-1 mb-2">
           <span className="font-medium text-sm text-[#20729D]">{article.category.label}</span>
@@ -19,7 +19,7 @@ export default function CardBlog({ article }: CardBlogProps) {
         </div>
         <div>
           <a href={`/article/${article.id}`}>
-            <h5 className="text-gray-900 font-medium text-[28px] tracking-tight mb-2">
+            <h5 className="text-gray-900 font-medium text-[28px] tracking-tight mb-2 line-clamp-2">
               {article.title}
             </h5>
           </a>
