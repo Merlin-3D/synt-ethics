@@ -1,8 +1,7 @@
 import { Head } from '@inertiajs/react'
 import Footer from './layouts/footer'
 import Header from './layouts/header'
-import winnie1 from '~/assets/images/winnie-1.png'
-import winnie2 from '~/assets/images/winnie-2.png'
+import winnie1 from '~/assets/images/winnie-3.png'
 
 export default function Winnie() {
   return (
@@ -23,12 +22,9 @@ export default function Winnie() {
                 <div className={`h-full w-full bg-cover rounded-xl`}>
                   <img src={winnie1} alt="" className="bg-cover rounded-xl h-full w-full " />
                 </div>
-                <div className={`bg-cover rounded-xl h-full w-full`}>
-                  <img src={winnie2} alt="" className="bg-cover rounded-xl h-full w-full " />
-                </div>
               </div>
-              <div className="flex flex-col gap-8">
-                <div className="border border-gray-200 text-sm rounded-xl p-8">
+              <div className="flex flex-col h-full border border-gray-200 rounded-xl bg-white">
+                <div className="text-sm p-8">
                   <h1 className="text-[32px] font-semibold text-[#0D0D12]">Biographie</h1>
                   <h2 className="text-[24px] font-semibold text-[#666D80] mt-5">
                     Winnie Franck Dongbou Wamba
@@ -62,12 +58,10 @@ export default function Winnie() {
         </section>
       </div>
 
-      <section className="mx-auto max-w-3xl my-16">
-        <div className="flex flex-col">
+      <section className="mx-auto max-w-4xl my-16">
+        <div className="flex flex-col gap-y-8">
           <h1 className="text-3xl xl:text-[56px] font-semibold text-[#102D26]">Mes coordonées</h1>
-          <span className="text-base font-normal text-[#6E7F7B] mb-8">
-            Nous sommes là pour vous aider et nous aimerions avoir de vos nouvelles.
-          </span>
+
           <div className="grid md:grid-cols-3 gap-2">
             <div className="bg-[#F5F5F5] p-6 flex flex-col gap-4 rounded-lg">
               <svg
@@ -92,16 +86,16 @@ export default function Winnie() {
               <div className="flex flex-col">
                 <span className="text-[#6E7F7B] text-base font-normal">Email personnel</span>
                 <span className="text-[#6E7F7B] text-[20px] font-normal">
-                  <a href="mailto:support@calesta.com" target="_blank">
-                    support@calesta.com
+                  <a href="mailto:winniedongbou@gmail.com" target="_blank">
+                    winniedongbou@gmail.com
                   </a>
                 </span>
               </div>
               <div className="flex flex-col">
                 <span className="text-[#6E7F7B] text-base font-normal">Email institutionnel</span>
                 <span className="text-[#6E7F7B] text-[20px] font-normal">
-                  <a href="mailto:support@calesta.com" target="_blank">
-                    support@calesta.com
+                  <a href="mailto:winnie-franck.dongbou-wamba@ut-capitole.fr" target="_blank">
+                    winnie-franck.dongbou-wamba@ut-capitole.fr
                   </a>
                 </span>
               </div>
@@ -132,8 +126,8 @@ export default function Winnie() {
               <div className="flex flex-col">
                 <span className="text-[#6E7F7B] text-base font-normal">Linkedn institutionnel</span>
                 <span className="text-[#6E7F7B] text-[20px] font-normal">
-                  <a href="https://Winnie.linkedn.com" target="_blank">
-                    Winnie.linkedn.com
+                  <a href="https://linkedin.com/in/winnie-dongbou-46ab4b160/" target="_blank">
+                    linkedin.com/in/winnie-dongbou-46ab4b160/
                   </a>
                 </span>
               </div>
@@ -172,7 +166,7 @@ export default function Winnie() {
 
               <div className="flex flex-col">
                 <span className="text-[#6E7F7B] text-base font-normal">Profil ORCID</span>
-                <span className="text-[#6E7F7B] text-[20px] font-normal">Nom d’utilisateur </span>
+                <span className="text-[#6E7F7B] text-[20px] font-normal">0009-0002-3202-3031 </span>
               </div>
             </div>
           </div>

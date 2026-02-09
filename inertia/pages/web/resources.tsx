@@ -20,7 +20,7 @@ interface RessourcesProps {
   allRessources: ResourceResponse[]
 }
 
-export default function Resources({allRessources, continents, resources }: RessourcesProps) {
+export default function Resources({ allRessources, continents, resources }: RessourcesProps) {
   const { props } = usePage<any>()
   const [continent, setContinent] = useState<{
     id: string
@@ -72,6 +72,32 @@ export default function Resources({allRessources, continents, resources }: Resso
     setClassification(null)
     setFilteredResources(resources)
   }
+  const formatDescription = (text: string) => {
+    return text.split('\n').map((line, index) => {
+      const trimmed = line.trim()
+      const urlRegex = /(https?:\/\/[^\s]+)/g
+
+      if (urlRegex.test(trimmed)) {
+        return (
+          <a
+            key={index}
+            href={trimmed}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#288FC4] underline text-[12px] block max-w-full break-all"
+          >
+            {trimmed}
+          </a>
+        )
+      }
+
+      return (
+        <span key={index} className="block max-w-full break-words">
+          {trimmed}
+        </span>
+      )
+    })
+  }
 
   return (
     <div className="p-1">
@@ -83,7 +109,7 @@ export default function Resources({allRessources, continents, resources }: Resso
         children={
           <div>
             <div className="flex flex-col justify-center mb-16 mt-10">
-              <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+              <div className="flex flex-col md:flex-row w-full items-center justify-center gap-4">
                 <Input
                   placeholder="Nom de la ressource"
                   value={searchTerm}
@@ -115,19 +141,23 @@ export default function Resources({allRessources, continents, resources }: Resso
                   className="w-full"
                 />
               </div>
-              <div className="mt-4 flex gap-4 justify-center">
-                <button
-                  className="inline-flex text-white bg-[#288FC4] border-0 py-2 px-12 focus:outline-none hover:bg-[#6BB1CF] rounded-xl text-lg"
-                  onClick={handleSearch}
-                >
-                  Rechercher
-                </button>
-                <button
-                  className="inline-flex text-gray-700 bg-gray-200 border-0 py-2 px-12 focus:outline-none hover:bg-gray-300 rounded-xl text-lg"
-                  onClick={handleReset}
-                >
-                  Réinitialiser
-                </button>
+              <div className="mt-4 flex flex-col items-center md:flex-row gap-4 justify-center">
+                <div>
+                  <button
+                    className="flex items-center justify-center w-52 text-white bg-[#288FC4] border-0 py-2 px-12 focus:outline-none hover:bg-[#6BB1CF] rounded-xl text-lg"
+                    onClick={handleSearch}
+                  >
+                    Rechercher
+                  </button>
+                </div>
+                <div>
+                  <button
+                    className="flex items-center justify-center w-52 text-gray-700 bg-gray-200 border-0 py-2 px-12 focus:outline-none hover:bg-gray-300 rounded-xl text-lg"
+                    onClick={handleReset}
+                  >
+                    <span>Réinitialiser</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -241,9 +271,10 @@ export default function Resources({allRessources, continents, resources }: Resso
                 <h5 className="text-gray-900 font-medium text-[16px] tracking-tight">
                   {item.title}
                 </h5>
-                <p className="font-normal text-[#737373] text-[12px] line-clamp-3">
-                  {item.description}
-                </p>
+                <div className="font-normal text-[#737373] text-[12px] flex flex-col gap-1 overflow-hidden">
+                  {formatDescription(item.description)}
+                </div>
+
                 <hr className="h-[0.5px] w-full bg-[#737379]" />
                 <div className="flex items-center gap-4">
                   <a target="_blank" href={`${props.filePath}/documents/${item.document}`}>

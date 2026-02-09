@@ -28,8 +28,12 @@ export default function Footer() {
             Vulgarisation des enjeux du recours aux données artificielles en recherche médicale
           </p>
           <div className="flex items-center text-base mt-2 sm:justify-start justify-center">
-            <EmailIcon className="h-10 w-10 cursor-pointer" />
-            <LinkedinIcon className="h-10 w-10 cursor-pointer" />
+            <a href="mailto:w.f.dongbouwamba@syntethicsprivacy.eu" target="_blank">
+              <EmailIcon className="h-10 w-10 cursor-pointer" />{' '}
+            </a>
+            <a href="https://www.linkedin.com/company/syntethics-privacy" target="_blank">
+              <LinkedinIcon className="h-10 w-10 cursor-pointer" />
+            </a>
           </div>
         </div>
         <div className="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">

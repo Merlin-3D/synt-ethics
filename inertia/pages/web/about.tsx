@@ -44,11 +44,9 @@ export default function AboutUs() {
             Mission + Valeurs
           </div>
         </div>
-        <p className="text-2xl lg:text-[40px] font-semibold text-[#A4ACB9] leading-10 mt-4">
-          <span className="text-[#0D0D12]">
-            Ce blog est né du besoin de partager nos recherches avec un public plus large.
-          </span>
-          En travaillant sur les données synthétiques, nous avons rapidement constaté le manque de
+        <p className="text-2xl lg:text-[40px] font-semibold text-[#0D0D12] leading-10 mt-4">
+          Ce blog est né du besoin de partager nos recherches avec un public plus large. En
+          travaillant sur les données synthétiques, nous avons rapidement constaté le manque de
           littérature francophone, surtout lorsqu’il s’agit des enjeux juridiques éthiques et
           juridiques liés à leur usage en recherche médicale.
         </p>

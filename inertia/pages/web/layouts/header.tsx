@@ -40,8 +40,12 @@ export default function Header() {
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
-            <EmailIcon className="h-8 w-8 cursor-pointer" />
-            <LinkedinIcon className="h-8 w-8 cursor-pointer" />
+            <a href="mailto:w.f.dongbouwamba@syntethicsprivacy.eu" target="_blank">
+              <EmailIcon className="h-8 w-8 cursor-pointer" />
+            </a>
+            <a href="https://www.linkedin.com/company/syntethics-privacy" target="_blank">
+              <LinkedinIcon className="h-8 w-8 cursor-pointer" />
+            </a>
           </div>
 
           <button

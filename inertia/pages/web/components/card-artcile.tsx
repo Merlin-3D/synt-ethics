@@ -26,7 +26,7 @@ export default function CardArticle({ article }: CardArticleProps) {
           </span>
         </div>
         <a href={`/article/${article.id}`}>
-          <h5 className="text-gray-900 font-semibold h-10 text-[16px] tracking-tight mb-2">
+          <h5 className="text-gray-900 font-semibold h-20 md:h-16 text-[16px] tracking-tight mb-2 line-clamp-2">
             {article.title}
           </h5>
         </a>

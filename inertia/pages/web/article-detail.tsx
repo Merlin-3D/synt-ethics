@@ -91,6 +91,8 @@ export default function ArticleDetail({ article, similars }: ArticleDetailProps)
       </div>
       <section className="mx-auto max-w-3xl mt-16">
         <div
+          className="article-content"
+          style={{fontFamily: 'Inter+Tight'}}
           dangerouslySetInnerHTML={{
             __html: article?.content,
           }}
