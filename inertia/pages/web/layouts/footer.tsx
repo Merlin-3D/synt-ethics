@@ -88,7 +88,7 @@ export default function Footer() {
                 </a>
               </li>
               <li>
-                <a href="#" className="text-[#737373] font-normal hover:text-gray-800">
+                <a href="/winnie#contact-info" className="text-[#737373] font-normal hover:text-gray-800">
                   Contactez-nous
                 </a>
               </li>

@@ -1,9 +1,24 @@
-import { Head } from '@inertiajs/react'
+import { Head, usePage } from '@inertiajs/react'
 import Footer from './layouts/footer'
 import Header from './layouts/header'
-import winnie1 from '~/assets/images/winnie-3.png'
+import winnie1 from '~/assets/images/winnie-4.png'
+import { useEffect } from 'react'
 
 export default function Winnie() {
+  const { url } = usePage()
+
+  useEffect(() => {
+    if (window.location.hash) {
+      const id = window.location.hash.replace('#', '')
+      const element = document.getElementById(id)
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' })
+        }, 100)
+      }
+    }
+  }, [url])
+
   return (
     <div className="p-2">
       <Head title="Fondateur" />
@@ -19,11 +34,11 @@ export default function Winnie() {
             </div>
             <div className="p-4 xl:px-0 grid lg:grid-cols-2 gap-6 my-16">
               <div className="flex flex-col h-full w-full gap-6">
-                <div className={`h-full w-full bg-cover rounded-xl`}>
-                  <img src={winnie1} alt="" className="bg-cover rounded-xl h-full w-full " />
+                <div className={`h-full w-full bg-cover`}>
+                  <img src={winnie1} alt="" className="bg-cover h-full w-full " />
                 </div>
               </div>
-              <div className="flex flex-col h-full border border-gray-200 rounded-xl bg-white">
+              <div className="flex flex-col h-full border border-gray-200 rounded-2xl bg-white">
                 <div className="text-sm p-8">
                   <h1 className="text-[32px] font-semibold text-[#0D0D12]">Biographie</h1>
                   <h2 className="text-[24px] font-semibold text-[#666D80] mt-5">
@@ -57,7 +72,7 @@ export default function Winnie() {
           </div>
         </section>
       </div>
-
+      <section id="contact-info"></section>
       <section className="mx-auto max-w-4xl my-16">
         <div className="flex flex-col gap-y-8">
           <h1 className="text-3xl xl:text-[56px] font-semibold text-[#102D26]">Mes coordonées</h1>

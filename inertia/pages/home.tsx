@@ -39,12 +39,9 @@ export default function Home({ articles }: HomeProps) {
         children={
           <>
             <div className="flex flex-col gap-4 sm:flex-row justify-center mb-16 mt-10">
-              <button className=" text-white bg-[#288FC4] border-0 py-3 px-3 focus:outline-none hover:bg-[#6BB1CF] rounded-xl text-lg">
+              <a href='/blog' className=" text-white bg-[#288FC4] border-0 py-3 px-3 focus:outline-none hover:bg-[#6BB1CF] rounded-xl text-lg">
                 Consultez tous nos articles
-              </button>
-              <button className="sm:ml-4  text-gray-700 bg-gray-100 border-0 py-3 px-3 focus:outline-none hover:bg-gray-200 rounded-xl text-lg">
-                Contactez-nous
-              </button>
+              </a>
             </div>
             <div className="container mx-auto max-w-3xl">
               <Input

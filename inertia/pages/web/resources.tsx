@@ -63,6 +63,13 @@ export default function Resources({ allRessources, continents, resources }: Ress
     }
 
     setFilteredResources(filtered)
+
+    setTimeout(() => {
+      const section = document.getElementById('search')
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' })
+      }
+    }, 100)
   }
 
   // Réinitialiser les filtres
@@ -71,6 +78,13 @@ export default function Resources({ allRessources, continents, resources }: Ress
     setContinent(null)
     setClassification(null)
     setFilteredResources(resources)
+
+    setTimeout(() => {
+      const section = document.getElementById('search')
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' })
+      }
+    }, 100)
   }
   const formatDescription = (text: string) => {
     return text.split('\n').map((line, index) => {
@@ -214,9 +228,9 @@ export default function Resources({ allRessources, continents, resources }: Ress
         </div>
       </section>
 
-      <hr className="hidden lg:block mx-auto max-w-6xl lg:pt-16" />
+      <hr id="search" className="hidden lg:block mx-auto max-w-6xl lg:pt-16" />
 
-      <section className="p-4 xl:px-0 pb-16 flex flex-col items-start mx-auto max-w-6xl">
+      <section  className="p-4 xl:px-0 pb-16 flex flex-col items-start mx-auto max-w-6xl">
         <div className="flex justify-between items-center w-full">
           <h1 className="font-semibold text-[32px] text-[#0A0A0A]">Ressources récentes</h1>
           {filteredResources.length !== resources.length && (
