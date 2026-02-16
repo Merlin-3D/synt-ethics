@@ -139,7 +139,7 @@ export default function Winnie() {
               </svg>
 
               <div className="flex flex-col">
-                <span className="text-[#6E7F7B] text-base font-normal">Linkedn institutionnel</span>
+                <span className="text-[#6E7F7B] text-base font-normal">Linkedn</span>
                 <span className="text-[#6E7F7B] text-[20px] font-normal">
                   <a href="https://linkedin.com/in/winnie-dongbou-46ab4b160/" target="_blank">
                     linkedin.com/in/winnie-dongbou-46ab4b160/
